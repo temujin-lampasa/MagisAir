@@ -9,6 +9,7 @@ class FlightSearchForm(forms.Form):
     cursor.execute("SELECT airport_city FROM airport GROUP BY airport_city")
     cities = cursor.fetchall()
     cities = [(c[0], c[0]) for c in cities]
+    cursor.close()
 
     from_city = forms.MultipleChoiceField(choices=cities)
     to_city = forms.MultipleChoiceField(choices=cities)
