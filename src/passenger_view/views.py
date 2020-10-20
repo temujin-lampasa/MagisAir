@@ -9,9 +9,7 @@ from .queries import QueryList
 # Create your views here.
 def home_view(request, *args, **kwargs):
     form = FlightSearchForm(request.POST or None)
-    print(request.session)
     if form.is_valid():
-        print(form.cleaned_data)
         request.session['flight_dep_date'] = form.cleaned_data.get('date').strftime('%Y-%m-%d')
         return HttpResponseRedirect(reverse('passenger_view:pass_flights'))
     context = {'form': form}

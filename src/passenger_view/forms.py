@@ -23,10 +23,11 @@ class FlightSearchForm(forms.Form):
         to_city_val = cleaned_data.get('to_city')
         from_city_val = cleaned_data.get('from_city')
         date_val = cleaned_data.get('date')
+
         # Check if cities are the same
         if from_city_val == to_city_val:
             raise forms.ValidationError('Cities cannot be the same.')
 
         # Check if date is from the past
-        if datetime.date.today() > date_val:
+        if date_val is not None and datetime.date.today() > date_val:
             raise forms.ValidationError('Date must not be in the past.')
