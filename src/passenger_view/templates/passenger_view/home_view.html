@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3> Choose a Flight: </h3>
+<h3> Look for a Flight: </h3>
 <form method="POST"> {% csrf_token %}
 {{form.as_p}}
-<input type="submit" value="Search" \>
+<input type="submit" value="Find Flight" \>
 </form>
 {% endblock %}
