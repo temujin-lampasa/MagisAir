@@ -4,7 +4,7 @@ from django.db import connection
 class QueryList:
     """Queries for the database."""
 
-    def flight_dep_date_query(self, dep_date):
+    def flight_dep_date_query(dep_date):
         flight_dep_date = dep_date
         q = f"""SELECT
           a.flight_code AS "Flight",
@@ -38,7 +38,7 @@ class QueryList:
 
 
 # Helpers ---
-def process_flight_data(self, data):
+def process_flight_data(data):
     """Make a dictionary for flight data."""
     fields = [
         'flight_code',
@@ -55,3 +55,4 @@ def process_flight_data(self, data):
             flight_data[fields[i]] = data[i]
     else:
         raise Exception('Invalid flight data.')
+    return flight_data
