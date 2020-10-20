@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p> Home View </p>
+<h3> Choose a Flight: </h3>
+<form method="POST"> {% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Search" \>
+</form>
 {% endblock %}

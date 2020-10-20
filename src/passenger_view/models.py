@@ -28,6 +28,12 @@ class Airport(models.Model):
         managed = False
         db_table = 'airport'
 
+    def __str__(self):
+        return self.airport_city
+
+    def same_city(self, other_airport):
+        return self.airport_city == other_airport.airport_city
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
