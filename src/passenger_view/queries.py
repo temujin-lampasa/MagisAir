@@ -33,26 +33,21 @@ class QueryList:
         cursor.execute(q)
         flights = cursor.fetchall()
         cursor.close()
-        processed_flights = [process_flight_data(f) for f in flights]
-        return processed_flights
+        flight_rows = [FlightRow(f) for f in flights]
+        return flight_rows
 
 
 # Helpers ---
-def process_flight_data(data):
-    """Make a dictionary for flight data."""
-    fields = [
-        'flight_code',
-        'airport_origin',
-        'airport_destination',
-        'flight_dep_date',
-        'flight_arrival_date',
-        'flight_duration',
-        'flight_cost'
-        ]
-    flight_data = {}
-    if len(fields) == len(data):
-        for i in range(len(data)):
-            flight_data[fields[i]] = data[i]
-    else:
-        raise Exception('Invalid flight data.')
-    return flight_data
+class FlightRow:
+    """A single flight row in flight_select_view."""
+
+    def __init__(self, data):
+        if len(data) != 7:
+            raise Exception("Invalid flight data.")
+        self.flight_code = data[0]
+        self.airport_origin = data[1]
+        self.airport_destination = data[2]
+        self.flight_dep_date = data[3]
+        self.flight_arrival_date = data[4]
+        self.flight_duration = data[5]
+        self.flight_cost = data[6]
