@@ -6,9 +6,9 @@ from django.db import connection
 class FlightSearchForm(forms.Form):
 
     cursor = connection.cursor()
-    cursor.execute("SELECT airport_city FROM airport GROUP BY airport_city")
+    cursor.execute("SELECT airport_city, airport_country FROM airport GROUP BY airport_city, airport_country")
     cities = cursor.fetchall()
-    cities = [(c[0], c[0]) for c in cities]
+    cities = [(c[0], f"{c[0]} ({c[1]})") for c in cities]
     cursor.close()
 
     from_city = forms.MultipleChoiceField(choices=cities)
