@@ -29,7 +29,7 @@ class Airport(models.Model):
         db_table = 'airport'
 
     def __str__(self):
-        return self.airport_city
+        return f"{self.airport_city} ({self.airport_country})"
 
     def same_city(self, other_airport):
         return self.airport_city == other_airport.airport_city
