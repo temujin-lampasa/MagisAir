@@ -197,8 +197,15 @@ class Flight(models.Model):
 
 class FlightRoute(models.Model):
     route_id = models.AutoField(primary_key=True)
-    airport_origin = models.ForeignKey(Airport, models.DO_NOTHING, db_column='airport_origin')
-    airport_destination = models.ForeignKey(Airport, models.DO_NOTHING, db_column='airport_destination')
+    airport_origin = models.ForeignKey(
+        Airport, models.DO_NOTHING,
+        related_name='airport_origin',
+        db_column='airport_origin'
+        )
+    airport_destination = models.ForeignKey(
+        Airport, models.DO_NOTHING,
+        related_name='airport_destination',
+        db_column='airport_destination')
 
     class Meta:
         managed = False
