@@ -23,7 +23,7 @@ def flight_select_view(request, *args, **kwargs):
     origin_city = request.session.get('from_city')
     destination_city = request.session.get('to_city')
     flights = QueryList.flight_select_query(flight_dep_date,
-                                              origin_city,
-                                              destination_city)
+                                            origin_city,
+                                            destination_city)
     context = {'object_list': flights}
     return render(request, 'passenger_view/flight_select.html', context)

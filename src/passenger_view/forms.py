@@ -1,14 +1,15 @@
 from django import forms
 from django.db import connection
 import datetime
+from .queries import QueryList
 
 
 class FlightSearchForm(forms.Form):
 
     cursor = connection.cursor()
-    cursor.execute("SELECT airport_city, airport_country FROM airport GROUP BY airport_city, airport_country")
-    cities = cursor.fetchall()
-    cities = [(c[0], f"{c[0]} ({c[1]})") for c in cities]
+    cursor.execute(QueryList.CITY_COUNTRY_SELECT)
+    city_country = cursor.fetchall()
+    cities = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
     cursor.close()
 
     from_city = forms.MultipleChoiceField(choices=cities)
