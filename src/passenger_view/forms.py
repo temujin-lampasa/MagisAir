@@ -15,8 +15,9 @@ class FlightSearchForm(forms.Form):
 
     from_city = forms.MultipleChoiceField(choices=cities)
     to_city = forms.MultipleChoiceField(choices=cities)
-    date = forms.DateField(input_formats=['%Y-%m-%d'],
-                           initial='YYYY-MM-DD')
+    date = forms.DateField(widget=forms.SelectDateWidget(),
+                           input_formats=['%Y-%m-%d'],
+                           initial=datetime.date.today())
 
     def clean(self):
         cleaned_data = super().clean()
@@ -36,6 +37,14 @@ class FlightSearchForm(forms.Form):
 
 
 class PassengerInfoForm(forms.ModelForm):
+
+    pass_bday = forms.DateField(
+        widget=forms.SelectDateWidget(years=range(1890, 2021)),
+        input_formats=['%Y-%m-%d'],
+        initial=f"{datetime.date.today().year}-01-01",
+        label='Birthdate'
+    )
+
     class Meta:
         model = models.Passenger
         fields = ['pass_fname', 'pass_lname',
