@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3> Guest Information </h3>
-<form method="POST">
+<form method="POST"> {% csrf_token %}
 {{form.as_p}}
 <input type="submit" value="Continue"\>
 </form>
