@@ -126,3 +126,4 @@ dmypy.json
 
 notepad.sql
 todo.txt
+.DS_Store
