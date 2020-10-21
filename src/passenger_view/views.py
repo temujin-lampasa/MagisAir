@@ -61,9 +61,11 @@ class FlightSelectView(View):
         flight_choice = request.POST.getlist(self.checkbox_name)
         if len(flight_choice) != 1:
             context['invalid_choice'] = True
+            return render(request, self.template_name, context)
         else:
             context['invalid_choice'] = False
-        return render(request, self.template_name, context)
+            request.session['chosen_flight'] = flight_choice[0]
+            return HttpResponseRedirect(reverse('passenger_view:pass_info'))
 
 
 def pass_info_view(request, *args, **kwargs):
