@@ -1,6 +1,5 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
-from django.db import connection
 from django.views import View
 
 from .queries import QueryList
@@ -40,6 +39,7 @@ def home_view(request, *args, **kwargs):
 
 class FlightSelectView(View):
     template_name = 'passenger_view/flight_select.html'
+    checkbox_name = 'flight_choice'
 
     def dispatch(self, request, *args, **kwargs):
         # Set variables to be used:
@@ -58,6 +58,11 @@ class FlightSelectView(View):
     def post(self, request, *args, **kwargs):
         # Validate the form data.
         context = {'object_list': self.flights}
+        flight_choice = request.POST.getlist(self.checkbox_name)
+        if len(flight_choice) != 1:
+            context['invalid_choice'] = True
+        else:
+            context['invalid_choice'] = False
         return render(request, self.template_name, context)
 
 
