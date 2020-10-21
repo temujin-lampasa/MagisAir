@@ -4,7 +4,7 @@ from django.db import connection
 class QueryList:
     """Queries for the database."""
 
-    def flight_dep_date_query(dep_date):
+    def flight_select_query(dep_date, origin, destination):
         flight_dep_date = dep_date
         q = f"""SELECT
           a.flight_code AS "Flight",
@@ -26,7 +26,8 @@ class QueryList:
           ON (a.airport_origin = b.airport_id)) a
         JOIN
           airport b
-        ON (a.airport_destination=b.airport_id);
+        ON (a.airport_destination=b.airport_id)
+        WHERE a.airport_city = '{origin}' AND b.airport_city='{destination}';
             """
 
         cursor = connection.cursor()
@@ -51,3 +52,6 @@ class FlightRow:
         self.flight_arrival_date = data[4]
         self.flight_duration = data[5]
         self.flight_cost = data[6]
+
+    # def get_absolute_url(self):
+    #     return
