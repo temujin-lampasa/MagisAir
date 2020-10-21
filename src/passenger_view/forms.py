@@ -10,8 +10,8 @@ class FlightSearchForm(forms.Form):
     cursor = connection.cursor()
     cursor.execute(QueryList.CITY_COUNTRY_SELECT)
     city_country = cursor.fetchall()
-    cities = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
     cursor.close()
+    cities = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
 
     from_city = forms.MultipleChoiceField(choices=cities)
     to_city = forms.MultipleChoiceField(choices=cities)
