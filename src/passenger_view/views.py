@@ -1,9 +1,12 @@
 from django.shortcuts import render, reverse
-from .forms import FlightSearchForm
 from django.http import HttpResponseRedirect
 from django.db import connection
 
 from .queries import QueryList
+from .forms import (
+    FlightSearchForm,
+    PassengerInfoForm
+                    )
 
 
 # Create your views here.
@@ -27,3 +30,9 @@ def flight_select_view(request, *args, **kwargs):
                                             destination_city)
     context = {'object_list': flights}
     return render(request, 'passenger_view/flight_select.html', context)
+
+
+def pass_info_view(request, *args, **kwargs):
+    form = PassengerInfoForm()
+    context = {"form": form}
+    return render(request, 'passenger_view/pass_info.html', context)

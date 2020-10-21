@@ -2,6 +2,7 @@ from django import forms
 from django.db import connection
 import datetime
 from .queries import QueryList
+import passenger_view.models as models
 
 
 class FlightSearchForm(forms.Form):
@@ -32,3 +33,18 @@ class FlightSearchForm(forms.Form):
         # Check if date is from the past
         if date_val is not None and datetime.date.today() > date_val:
             raise forms.ValidationError('Date must not be in the past.')
+
+
+class PassengerInfoForm(forms.ModelForm):
+    class Meta:
+        model = models.Passenger
+        fields = ['pass_fname', 'pass_lname',
+                  'pass_mi', 'pass_bday', 'pass_gender']
+        labels = {
+            'pass_fname': 'First Name',
+            'pass_lname': 'Last Name',
+            'pass_mi': 'Middle Initial',
+            'pass_bday': 'Birthdate',
+            'pass_fname': 'First Name',
+            'pass_gender': 'Gender'
+        }
