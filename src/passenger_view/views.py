@@ -82,13 +82,11 @@ class PassInfoView(FormView):
         form = self.form_class(request.POST)
         if form.is_valid():
             # Save passenger info to session.
-            fn = form.cleaned_data.get('pass_fname')
-            ln = form.cleaned_data.get('pass_lname')
-            mn = form.cleaned_data.get('pass_mi')
-            request.session['pass_fname'] = fn
-            request.session['pass_lname'] = ln
-            request.session['pass_mi'] = mn
-            request.session['pass_name'] = f"{ln}, {fn} {mn}."
+            request.session['pass_fname'] = form.cleaned_data.get('pass_fname')
+            request.session['pass_lname'] = form.cleaned_data.get('pass_lname')
+            request.session['pass_mi'] = form.cleaned_data.get('pass_mi')
+            request.session['pass_bday'] = form.cleaned_data.get('pass_bday')
+            request.session['pass_gender'] = form.cleaned_data.get('pass_gender')
         return super().post(request, *args, **kwargs)
 
 

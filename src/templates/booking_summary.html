@@ -3,7 +3,8 @@
 <p> Flight: {{request.session.chosen_flight}}</p>
 <p> From: {{request.session.from_city}} </p>
 <p> To: {{request.session.to_city}} </p>
-<p> Name: {{request.session.pass_name}} </p>
+<p> Name: {{request.session.pass_fname}},
+  {{request.session.pass_lname}} {{request.session.pass_mi}}. </p>
 <p> Addons: </p>
 
 <table>
