@@ -16,6 +16,8 @@ from .forms import (
 
 # Create your views here.
 class HomeView(View):
+    """View for finding flight, with form for departure date
+    and origin/destination cities."""
     template_name = 'passenger_view/home_view.html'
 
     def get(self, request, *args, **kwargs):
@@ -26,6 +28,7 @@ class HomeView(View):
     def post(self, request, *args, **kwargs):
         form = FlightSearchForm(request.POST)
         if form.is_valid():
+            # Save selected cities and departure date to session
             request.session['flight_dep_date'] = form.cleaned_data.get('date').strftime('%Y-%m-%d')
             request.session['from_city'] = form.cleaned_data.get('from_city')
             request.session['to_city'] = form.cleaned_data.get('to_city')
@@ -35,11 +38,14 @@ class HomeView(View):
 
 
 class FlightSelectView(View):
+    """View for selecting a flight with matching date and cities
+    given by HomeView."""
     template_name = 'passenger_view/flight_select.html'
     checkbox_name = 'flight_choice'
 
     def dispatch(self, request, *args, **kwargs):
-        # Set variables to be used:
+        # Get cities and date from session
+        # Then use to query flights with matching info
         flight_dep_date = request.session.get('flight_dep_date')
         origin_city = request.session.get('from_city')
         destination_city = request.session.get('to_city')
@@ -54,6 +60,7 @@ class FlightSelectView(View):
 
     def post(self, request, *args, **kwargs):
         # Validate the form data.
+        # Make sure only 1 checkbox selected.
         context = {'object_list': self.flights}
         flight_choice = request.POST.getlist(self.checkbox_name)
         if len(flight_choice) != 1:
@@ -66,6 +73,7 @@ class FlightSelectView(View):
 
 
 class PassInfoView(FormView):
+    """View for entering passenger information."""
     template_name = 'passenger_view/pass_info.html'
     form_class = PassengerInfoForm
     success_url = reverse_lazy('passenger_view:addon_select')
@@ -73,6 +81,7 @@ class PassInfoView(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
+            # Save passenger info to session.
             fn = form.cleaned_data.get('pass_fname')
             ln = form.cleaned_data.get('pass_lname')
             mn = form.cleaned_data.get('pass_mi')
@@ -84,6 +93,7 @@ class PassInfoView(FormView):
 
 
 class AddonSelectView(FormView):
+    """View for selecting addons."""
     template_name = 'passenger_view/addon_select.html'
     form_class = AddonSelectForm
     success_url = reverse_lazy('passenger_view:addon_qty_select')
@@ -91,16 +101,18 @@ class AddonSelectView(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
+            # Get the string representation of the selected addons
+            # and save it to session.
             selected_addon_ids = form.cleaned_data.get('addon_field')
             selected_addon_ids = tuple([int(id) for id in selected_addon_ids])
             selected_addons = models.Addon.objects.filter(addon_id__in=selected_addon_ids)
             selected_addons = [a.__str__() for a in selected_addons]
-            print(selected_addons)
             request.session['addon_list'] = selected_addons
         return super().post(request, *args, **kwargs)
 
 
 class AddonQuantityView(FormView):
+    """View for selecting quantity of each addon."""
     template_name = 'passenger_view/addon_qty_select.html'
     success_url = ""
     form_class = AddonQuantityForm
