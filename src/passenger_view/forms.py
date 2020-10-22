@@ -1,20 +1,15 @@
 from django import forms
-from django.db import connection
 import datetime
 from .queries import QueryList
 import passenger_view.models as models
 
 
 class FlightSearchForm(forms.Form):
+    city_country = QueryList.city_country_select()
+    city_choices = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
 
-    cursor = connection.cursor()
-    cursor.execute(QueryList.CITY_COUNTRY_SELECT)
-    city_country = cursor.fetchall()
-    cursor.close()
-    cities = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
-
-    from_city = forms.ChoiceField(choices=cities)
-    to_city = forms.ChoiceField(choices=cities)
+    from_city = forms.ChoiceField(choices=city_choices)
+    to_city = forms.ChoiceField(choices=city_choices)
     date = forms.DateField(widget=forms.SelectDateWidget(),
                            input_formats=['%Y-%m-%d'],
                            initial=datetime.date.today())

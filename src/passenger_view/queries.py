@@ -4,10 +4,16 @@ from django.db import connection
 class QueryList:
     """Queries for the database."""
 
-    CITY_COUNTRY_SELECT = """
-    SELECT airport_city, airport_country
-    FROM airport
-    GROUP BY airport_city, airport_country"""
+    def city_country_select():
+        q = """
+        SELECT airport_city, airport_country
+        FROM airport
+        GROUP BY airport_city, airport_country"""
+        cursor = connection.cursor()
+        cursor.execute(q)
+        city_country = cursor.fetchall()
+        cursor.close()
+        return city_country
 
     def flight_select_query(dep_date, origin, destination):
         flight_dep_date = dep_date
