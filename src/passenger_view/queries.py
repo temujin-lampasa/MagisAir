@@ -5,6 +5,7 @@ class QueryList:
     """Queries for the database."""
 
     def city_country_select():
+        """Return list of 2-tuples (city, country)"""
         q = """
         SELECT airport_city, airport_country
         FROM airport
@@ -16,6 +17,7 @@ class QueryList:
         return city_country
 
     def flight_select_query(dep_date, origin, destination):
+        """Return list of FlightRows"""
         flight_dep_date = dep_date
         q = f"""SELECT
           a.flight_code AS "Flight",
@@ -51,7 +53,7 @@ class QueryList:
 
 # Helpers ---
 class FlightRow:
-    """A single flight row in flight_select_view."""
+    """A single flight row in the flight_select_view table."""
 
     def __init__(self, data):
         if len(data) != 7:
