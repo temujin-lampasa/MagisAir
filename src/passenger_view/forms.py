@@ -13,8 +13,8 @@ class FlightSearchForm(forms.Form):
     cursor.close()
     cities = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
 
-    from_city = forms.MultipleChoiceField(choices=cities)
-    to_city = forms.MultipleChoiceField(choices=cities)
+    from_city = forms.ChoiceField(choices=cities)
+    to_city = forms.ChoiceField(choices=cities)
     date = forms.DateField(widget=forms.SelectDateWidget(),
                            input_formats=['%Y-%m-%d'],
                            initial=datetime.date.today())
@@ -22,6 +22,8 @@ class FlightSearchForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         # print(cleaned_data)
+        print("CLEANED: ")
+        print(cleaned_data)
 
         to_city_val = cleaned_data.get('to_city')
         from_city_val = cleaned_data.get('from_city')
