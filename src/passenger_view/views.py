@@ -32,6 +32,7 @@ class HomeView(View):
             request.session['flight_dep_date'] = form.cleaned_data.get('date').strftime('%Y-%m-%d')
             request.session['from_city'] = form.cleaned_data.get('from_city')
             request.session['to_city'] = form.cleaned_data.get('to_city')
+            request.session['flight_code'] = None
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_flights'))
         context = {'form': form}
         return render(request, self.template_name, context)
