@@ -21,22 +21,6 @@ def home_view(request, *args, **kwargs):
     return render(request, 'passenger_view/home_view.html', context)
 
 
-# def flight_select_view(request, *args, **kwargs):
-#
-#     # Validate
-#     checkbox_name = 'flight_choice'
-#     print(f"POST list: {request.POST.getlist(checkbox_name)}")
-#
-#     flight_dep_date = request.session.get('flight_dep_date')
-#     origin_city = request.session.get('from_city')
-#     destination_city = request.session.get('to_city')
-#     flights = QueryList.flight_select_query(flight_dep_date,
-#                                             origin_city,
-#                                             destination_city)
-#     context = {'object_list': flights}
-#     return render(request, 'passenger_view/flight_select.html', context)
-
-
 class FlightSelectView(View):
     template_name = 'passenger_view/flight_select.html'
     checkbox_name = 'flight_choice'
@@ -71,5 +55,17 @@ class FlightSelectView(View):
 def pass_info_view(request, *args, **kwargs):
     form = PassengerInfoForm(request.POST or None)
 
+    if form.is_valid():
+        return HttpResponseRedirect(reverse('passenger_view:addon_select'))
+
     context = {"form": form}
     return render(request, 'passenger_view/pass_info.html', context)
+
+
+class AddonSelectView(View):
+    template_name = 'passenger_view/addon_select.html'
+
+    def get(self, request, *args, **kwargs):
+        print("HERE"*90)
+        context = {}
+        return render(request, self.template_name, context)
