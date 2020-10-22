@@ -54,16 +54,6 @@ class FlightSelectView(View):
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
-def pass_info_view(request, *args, **kwargs):
-    form = PassengerInfoForm(request.POST or None)
-
-    if form.is_valid():
-        return HttpResponseRedirect(reverse_lazy('passenger_view:addon_select'))
-
-    context = {"form": form}
-    return render(request, 'passenger_view/pass_info.html', context)
-
-
 class PassInfoView(FormView):
     template_name = 'passenger_view/pass_info.html'
     form_class = PassengerInfoForm
