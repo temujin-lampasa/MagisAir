@@ -1,11 +1,13 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views import View
+from django.views.generic.edit import FormView
 
 from .queries import QueryList
 from .forms import (
     FlightSearchForm,
-    PassengerInfoForm
+    PassengerInfoForm,
                     )
 
 
@@ -16,7 +18,7 @@ def home_view(request, *args, **kwargs):
         request.session['flight_dep_date'] = form.cleaned_data.get('date').strftime('%Y-%m-%d')
         request.session['from_city'] = form.cleaned_data.get('from_city')
         request.session['to_city'] = form.cleaned_data.get('to_city')
-        return HttpResponseRedirect(reverse('passenger_view:pass_flights'))
+        return HttpResponseRedirect(reverse_lazy('passenger_view:pass_flights'))
     context = {'form': form}
     return render(request, 'passenger_view/home_view.html', context)
 
@@ -49,23 +51,28 @@ class FlightSelectView(View):
         else:
             context['invalid_choice'] = False
             request.session['chosen_flight'] = flight_choice[0]
-            return HttpResponseRedirect(reverse('passenger_view:pass_info'))
+            return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
 def pass_info_view(request, *args, **kwargs):
     form = PassengerInfoForm(request.POST or None)
 
     if form.is_valid():
-        return HttpResponseRedirect(reverse('passenger_view:addon_select'))
+        return HttpResponseRedirect(reverse_lazy('passenger_view:addon_select'))
 
     context = {"form": form}
     return render(request, 'passenger_view/pass_info.html', context)
+
+
+class PassInfoView(FormView):
+    template_name = 'passenger_view/pass_info.html'
+    form_class = PassengerInfoForm
+    success_url = reverse_lazy('passenger_view:addon_select')
 
 
 class AddonSelectView(View):
     template_name = 'passenger_view/addon_select.html'
 
     def get(self, request, *args, **kwargs):
-        print("HERE"*90)
         context = {}
         return render(request, self.template_name, context)
