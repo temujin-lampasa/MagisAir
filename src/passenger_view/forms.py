@@ -38,6 +38,9 @@ class PassengerInfoForm(forms.ModelForm):
         initial=f"{datetime.date.today().year}-01-01",
         label='Birthdate'
     )
+    gc = ["Male", "Female", "Other"]
+    gender_choices = zip(gc, gc)
+    pass_gender = forms.ChoiceField(choices=gender_choices, label="Gender")
 
     class Meta:
         model = models.Passenger
@@ -47,7 +50,7 @@ class PassengerInfoForm(forms.ModelForm):
             'pass_fname': 'First Name',
             'pass_lname': 'Last Name',
             'pass_mi': 'Middle Initial',
-            'pass_bday': 'Birthdate',
             'pass_fname': 'First Name',
+            'pass_bday': 'Birthdate',
             'pass_gender': 'Gender'
         }
