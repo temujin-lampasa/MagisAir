@@ -86,7 +86,7 @@ class PassInfoView(FormView):
             request.session['pass_fname'] = form.cleaned_data.get('pass_fname')
             request.session['pass_lname'] = form.cleaned_data.get('pass_lname')
             request.session['pass_mi'] = form.cleaned_data.get('pass_mi')
-            request.session['pass_bday'] = form.cleaned_data.get('pass_bday')
+            request.session['pass_bday'] = form.cleaned_data.get('pass_bday').strftime('%Y-%m-%d')
             request.session['pass_gender'] = form.cleaned_data.get('pass_gender')
         return super().post(request, *args, **kwargs)
 
