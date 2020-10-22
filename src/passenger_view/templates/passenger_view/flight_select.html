@@ -9,6 +9,7 @@
 
 <form method="POST"> {% csrf_token %}
   <table width=1000px>
+    <tr><td colspan=8>FLIGHT SCHEDULE: {{request.session.flight_dep_date}}</td></tr>
     <tr>
       <th> Select </th>
       <th> Flight Code </th>
