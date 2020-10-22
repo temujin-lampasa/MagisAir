@@ -16,9 +16,6 @@ class FlightSearchForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        # print(cleaned_data)
-        print("CLEANED: ")
-        print(cleaned_data)
 
         to_city_val = cleaned_data.get('to_city')
         from_city_val = cleaned_data.get('from_city')
