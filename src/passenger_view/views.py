@@ -8,6 +8,7 @@ from .queries import QueryList
 from .forms import (
     FlightSearchForm,
     PassengerInfoForm,
+    AddonSelectForm,
                     )
 
 
@@ -68,9 +69,11 @@ class PassInfoView(FormView):
     success_url = reverse_lazy('passenger_view:addon_select')
 
 
-class AddonSelectView(View):
+class AddonSelectView(FormView):
     template_name = 'passenger_view/addon_select.html'
+    form_class = AddonSelectForm
+    success_url = reverse_lazy('passenger_view:addon_qty_select')
 
-    def get(self, request, *args, **kwargs):
-        context = {}
-        return render(request, self.template_name, context)
+
+class AddonQuantityView(FormView):
+    pass

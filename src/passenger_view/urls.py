@@ -4,6 +4,7 @@ from .views import (
     PassInfoView,
     FlightSelectView,
     AddonSelectView,
+    AddonQuantityView,
                     )
 
 
@@ -13,4 +14,5 @@ urlpatterns = [
     path('flights/', FlightSelectView.as_view(), name='pass_flights'),
     path('pass_info/', PassInfoView.as_view(), name='pass_info'),
     path('addons', AddonSelectView.as_view(), name='addon_select'),
+    path('addons/qty', AddonQuantityView.as_view(), name='addon_qty_select')
 ]

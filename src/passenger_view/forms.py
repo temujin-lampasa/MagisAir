@@ -4,6 +4,12 @@ from .queries import QueryList
 import passenger_view.models as models
 
 
+class AddonSelectForm(forms.Form):
+    addons = models.Addon.objects.all()
+    addon_choices = [(a.addon_id, a.addon_description) for a in addons]
+    addon_field = forms.MultipleChoiceField(choices=addon_choices, label='Add-ons:')
+
+
 class FlightSearchForm(forms.Form):
     city_country = QueryList.city_country_select()
     city_choices = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
