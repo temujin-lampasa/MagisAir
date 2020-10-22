@@ -68,7 +68,7 @@ class FlightSelectView(View):
             return render(request, self.template_name, context)
         else:
             context['invalid_choice'] = False
-            request.session['chosen_flight'] = flight_choice[0]
+            request.session['flight_code'] = flight_choice[0]
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
