@@ -4,18 +4,6 @@ from django.db import connection
 class QueryList:
     """Queries for the database."""
 
-    def addon_select_query(addon_ids):
-        addon_ids = (1, 2, 3)
-        q = """
-        SELECT addon_description FROM addon WHERE addon_id in (%s, %s, %s);
-        """
-        cursor = connection.cursor()
-        cursor.execute(q, addon_ids)
-        res = cursor.fetchall()
-        res = [r[0] for r in res]
-        cursor.close()
-        return res
-
     def city_country_select():
         """Return list of 2-tuples (city, country)"""
         q = """

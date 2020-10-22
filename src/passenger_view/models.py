@@ -17,6 +17,9 @@ class Addon(models.Model):
         managed = False
         db_table = 'addon'
 
+    def __str__(self):
+        return self.addon_description
+
 
 class Airport(models.Model):
     airport_id = models.AutoField(primary_key=True)

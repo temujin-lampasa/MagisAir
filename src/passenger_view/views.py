@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.edit import FormView
+import passenger_view.models as models
 
 from .queries import QueryList
 from .forms import (
@@ -91,7 +92,10 @@ class AddonSelectView(FormView):
         form = self.form_class(request.POST)
         if form.is_valid():
             selected_addon_ids = form.cleaned_data.get('addon_field')
-            selected_addons = QueryList.addon_select_query(selected_addon_ids)
+            selected_addon_ids = tuple([int(id) for id in selected_addon_ids])
+            selected_addons = models.Addon.objects.filter(addon_id__in=selected_addon_ids)
+            selected_addons = [a.__str__() for a in selected_addons]
+            print(selected_addons)
             request.session['addon_list'] = selected_addons
         return super().post(request, *args, **kwargs)
 
