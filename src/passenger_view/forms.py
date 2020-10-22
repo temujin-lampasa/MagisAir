@@ -10,6 +10,10 @@ class AddonSelectForm(forms.Form):
     addon_field = forms.MultipleChoiceField(choices=addon_choices, label='Add-ons:')
 
 
+class AddonQuantityForm(forms.Form):
+    test = forms.IntegerField()
+
+
 class FlightSearchForm(forms.Form):
     city_country = QueryList.city_country_select()
     city_choices = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]

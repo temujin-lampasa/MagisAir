@@ -1,0 +1,15 @@
+<hr>
+<h3> Booking Summary </h3>
+<p> Flight: {{request.session.chosen_flight}}</p>
+<p> From: {{request.session.from_city}} </p>
+<p> To: {{request.session.to_city}} </p>
+<p> Name: {{request.session.pass_name}} </p>
+<p> Addons: </p>
+
+{{addon_list}}
+<ul>
+  {{request.session.addon_list}}
+{% for addon in request.session.addon_list %}
+  <li> {{addon}}</li>
+{% endfor %}
+</ul>
