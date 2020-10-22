@@ -6,10 +6,15 @@
 <p> Name: {{request.session.pass_name}} </p>
 <p> Addons: </p>
 
-{{addon_list}}
-<ul>
-  {{request.session.addon_list}}
-{% for addon in request.session.addon_list %}
-  <li> {{addon}}</li>
-{% endfor %}
+<table>
+  <tr>
+    <th> Addon </th>
+    <th> Qty </th>
+  </tr>
+  {% for addon in request.session.addon_list %}
+  <tr>
+    <td> {{addon}} </td>
+    <td> </td>
+  </tr>
+  {% endfor %}
 </ul>
