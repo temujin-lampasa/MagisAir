@@ -7,14 +7,14 @@ import passenger_view.models as models
 class AddonSelectForm(forms.Form):
     """Creates 1 ChoiceField for the quantity of each addon object."""
 
-    MAX_QUANTITY = 6
+    MAX_QUANTITY = 5
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         addons = models.Addon.objects.all()
         for addon in addons:
             self.fields[f"{addon.addon_id}"] = forms.ChoiceField(
-                choices=[(n, n) for n in range(self.MAX_QUANTITY)],
+                choices=[(n, n) for n in range(self.MAX_QUANTITY+1)],
                 label=addon.addon_description,
             )
 
