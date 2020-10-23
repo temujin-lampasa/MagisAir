@@ -100,6 +100,13 @@ class AddonSelectView(FormView):
         form = self.form_class(request.POST)
         if form.is_valid():
             # Save fields to session
+            print(form.cleaned_data)
+            addon_ids = list(form.cleaned_data.keys())
+            addon_qty = list(form.cleaned_data.values())
+            request.session['addon_ids'] = addon_ids
+            request.session['addon_qty'] = addon_qty
+            print(request.session['addon_ids'])
+            print(request.session['addon_qty'])
             pass
         return super().post(request, *args, **kwargs)
 

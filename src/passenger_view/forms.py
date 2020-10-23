@@ -13,7 +13,7 @@ class AddonSelectForm(forms.Form):
         super().__init__(*args, **kwargs)
         addons = models.Addon.objects.all()
         for addon in addons:
-            self.fields[f"addon{addon.addon_id}"] = forms.ChoiceField(
+            self.fields[f"{addon.addon_id}"] = forms.ChoiceField(
                 choices=[(n, n) for n in range(self.MAX_QUANTITY)],
                 label=addon.addon_description,
             )
