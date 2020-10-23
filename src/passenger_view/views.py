@@ -176,5 +176,17 @@ class ConfirmView(View):
 
     def post(self, request, *args, **kwargs):
         # Save the data
+        try:
+            # Insert a passenger
+            pass_fname = request.session['pass_fname']
+            pass_lname = request.session['pass_fname']
+            pass_mi = request.session['pass_mi']
+            pass_bday = request.session['pass_bday']
+            pass_gender = request.session['pass_gender']
+            QueryList.passenger_add_query(
+                pass_fname, pass_lname, pass_mi, pass_bday, pass_gender
+            )
+        except:
+            pass
         context = {}
         return render(request, self.template_name, context)

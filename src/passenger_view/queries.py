@@ -6,7 +6,7 @@ class QueryList:
     """Queries for the database."""
 
     def city_country_select():
-        """Return list of 2-tuples (city, country)"""
+        """Return list of 2-tuples (city, country)."""
         q = """
         SELECT airport_city, airport_country
         FROM airport
@@ -18,7 +18,7 @@ class QueryList:
         return city_country
 
     def flight_select_query(dep_date, origin, destination):
-        """Return list of FlightRows"""
+        """Return list of FlightRows."""
         flight_dep_date = dep_date
         q = """SELECT
           a.flight_code AS "Flight",
@@ -52,3 +52,17 @@ class QueryList:
         cursor.close()
         flight_rows = [FlightRow(f) for f in flights]
         return flight_rows
+
+    def passenger_insert_query(
+        pass_fname, pass_lname, pass_mi, pass_bday, pass_gender
+    ):
+        """Insert a row to the passenger table."""
+        vars = [pass_fname, pass_lname, pass_mi, pass_bday, pass_gender]
+        q = """
+        INSERT INTO
+            passenger(pass_fname, pass_lname, pass_mi, pass_bday, pass_gender)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor = connection.cursor()
+        cursor.execute(q, vars)
+        cursor.close()
