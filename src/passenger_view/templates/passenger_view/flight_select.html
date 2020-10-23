@@ -23,7 +23,7 @@
 
     {% for object in object_list %}
     <tr>
-      <td> <input type="checkbox" name="flight_choice" value="{{object.flight_code}}"> </td>
+      <td> <input type="checkbox" name="flight_code" value="{{object.flight_code}}"> </td>
       <td> {{ object.flight_code }} </td>
       <td> {{ object.airport_origin }} </td>
       <td> {{ object.airport_destination }} </td>

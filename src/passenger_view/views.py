@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.edit import FormView
 import passenger_view.models as models
-
 from .queries import QueryList
 from .forms import (
     FlightSearchForm,
@@ -31,7 +30,6 @@ class HomeView(View):
             request.session['flight_dep_date'] = form.cleaned_data.get('date').strftime('%Y-%m-%d')
             request.session['from_city'] = form.cleaned_data.get('from_city')
             request.session['to_city'] = form.cleaned_data.get('to_city')
-            request.session['flight_code'] = None
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_flights'))
         context = {'form': form}
         return render(request, self.template_name, context)
@@ -41,7 +39,7 @@ class FlightSelectView(View):
     """View for selecting a flight with matching date and cities
     given by HomeView."""
     template_name = 'passenger_view/flight_select.html'
-    checkbox_name = 'flight_choice'
+    checkbox_name = 'flight_code'
 
     def dispatch(self, request, *args, **kwargs):
         # Get cities and date from session
@@ -59,16 +57,42 @@ class FlightSelectView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        # Instantiate session flight_list
+        print("HERE")
+        if 'flight_list' not in request.session:
+            print("INSIDE")
+            request.session['flight_list'] = []
+            print("INSTANTIATED")
+        else:
+            print("Already exists")
         # Validate the form data.
         # Make sure only 1 checkbox selected.
         context = {'object_list': self.flights}
-        flight_choice = request.POST.getlist(self.checkbox_name)
-        if len(flight_choice) != 1:
+        chosen_flight_code = request.POST.getlist(self.checkbox_name)
+        print(chosen_flight_code)
+        if len(chosen_flight_code) != 1:
             context['invalid_choice'] = True
             return render(request, self.template_name, context)
         else:
             context['invalid_choice'] = False
-            request.session['flight_code'] = flight_choice[0]
+            # The choice is valid
+            # Find out which flight was chosen,
+            # then add the flight to the session flight_list
+            chosen_flight = None
+            for flight in self.flights:
+                if flight.flight_code == chosen_flight_code[0]:
+                    chosen_flight = flight
+            # Turn the FlightRow into something JSON serializable
+            request_content = (
+                chosen_flight.flight_code,
+                chosen_flight.airport_origin,
+                chosen_flight.airport_destination,
+                chosen_flight.flight_dep_date,
+                chosen_flight.flight_arrival_date,
+                str(chosen_flight.flight_duration),
+                chosen_flight.flight_cost,
+                )
+            request.session['flight_list'].append(request_content)
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
@@ -115,7 +139,6 @@ class AddonSelectView(FormView):
         return super().post(request, *args, **kwargs)
 
 
-class ConfirmationView(View):
     """View to confirm booking."""
     template_name = 'passenger_view/confirm_booking.html'
 

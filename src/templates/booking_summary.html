@@ -5,21 +5,24 @@
 <p> Name: {{request.session.pass_fname}},
   {{request.session.pass_lname}} {{request.session.pass_mi}}. </p>
 {% endif %}
-
-{% if request.session.flight_code %}
+{% if request.session.flight_list %}
 <table border=1>
-  <tr><th colspan=4>Flights</td></tr>
+  <tr><th colspan=7>Flights</th></tr>
   <tr>
     <th> Flight Code </th>
     <th> From </th>
     <th> To </th>
     <th> Departure </th>
+    <th> Arrival </th>
+    <th> Duration </th>
+    <th> Cost </th>
   </tr>
+  {% for flight in request.session.flight_list %}
   <tr>
-    <td> {{request.session.flight_code}} </td>
-    <td> {{request.session.from_city}} </td>
-    <td> {{request.session.to_city}} </td>
-    <td> {{request.session.flight_dep_date}} </td>
+    {% for i in flight %}
+    <td> {{i}} </td>
+    {% endfor %}
+  {% endfor %}
   </tr>
 </table>
 <br>
