@@ -1,11 +1,22 @@
 <hr>
 <h3> Booking Summary </h3>
-<p> Flight: {{request.session.flight_code}}</p>
-<p> From: {{request.session.from_city}} </p>
-<p> To: {{request.session.to_city}} </p>
+
 <p> Name: {{request.session.pass_fname}},
   {{request.session.pass_lname}} {{request.session.pass_mi}}. </p>
-<table>
+<table border=1>
+  <tr><th colspan=3>Flights</td></tr>
+  <tr>
+    <th> Flight Code </th>
+    <th> From </th>
+    <th> To </th>
+  </tr>
+  <tr>
+    <td> {{request.session.flight_code}} </td>
+    <td> {{request.session.from_city}} </td>
+    <td> {{request.session.to_city}} </td>
+  </tr>
+</table>
+<table border=1>
   <tr>
     <th> Addon </th>
     <th> Quantity </th>
