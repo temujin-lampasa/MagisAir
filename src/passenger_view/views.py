@@ -139,6 +139,7 @@ class AddonSelectView(FormView):
         return super().post(request, *args, **kwargs)
 
 
+class ConfirmView(View):
     """View to confirm booking."""
     template_name = 'passenger_view/confirm_booking.html'
 

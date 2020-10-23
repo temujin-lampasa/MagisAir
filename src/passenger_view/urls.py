@@ -4,7 +4,7 @@ from .views import (
     PassInfoView,
     FlightSelectView,
     AddonSelectView,
-    ConfirmationView
+    ConfirmView
                     )
 
 
@@ -14,5 +14,5 @@ urlpatterns = [
     path('flights/', FlightSelectView.as_view(), name='pass_flights'),
     path('pass_info/', PassInfoView.as_view(), name='pass_info'),
     path('addons/', AddonSelectView.as_view(), name='addon_select'),
-    path('confirm_booking/', ConfirmationView.as_view(), name='confirmation_view')
+    path('confirm_booking/', ConfirmView.as_view(), name='confirmation_view')
 ]
