@@ -99,15 +99,19 @@ class AddonSelectView(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # Save fields to session
-            print(form.cleaned_data)
-            addon_ids = list(form.cleaned_data.keys())
-            addon_qty = list(form.cleaned_data.values())
-            request.session['addon_ids'] = addon_ids
-            request.session['addon_qty'] = addon_qty
-            print(request.session['addon_ids'])
-            print(request.session['addon_qty'])
-            pass
+            # Save the quantities of the addons to session
+            addon_quantities = list(form.cleaned_data.values())
+            request.session['addon_quantities'] = addon_quantities
+
+            # addon_booking_display is only for use in the booking_summary.
+            # Show only addons whose quantity is not 0
+            addons = [a.addon_description for a in models.Addon.objects.all()]
+            nonzero_addons = [
+                a for a, b in zip(addons, addon_quantities) if b != '0'
+            ]
+            nonzero_quantities = [a for a in addon_quantities if a != '0']
+            addon_booking_display = list(zip(nonzero_addons, nonzero_quantities))
+            request.session['addon_booking_display'] = addon_booking_display
         return super().post(request, *args, **kwargs)
 
 

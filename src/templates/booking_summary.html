@@ -5,17 +5,15 @@
 <p> To: {{request.session.to_city}} </p>
 <p> Name: {{request.session.pass_fname}},
   {{request.session.pass_lname}} {{request.session.pass_mi}}. </p>
-<p> Addons: </p>
-
-<!-- <table>
+<table>
   <tr>
     <th> Addon </th>
-    <th> Qty </th>
+    <th> Quantity </th>
   </tr>
-  {% for addon in request.session.addon_list %}
+  {% for addon, qty in request.session.addon_booking_display %}
   <tr>
     <td> {{addon}} </td>
-    <td> </td>
+    <td> {{qty}}</td>
   </tr>
   {% endfor %}
-</table> -->
+</table>
