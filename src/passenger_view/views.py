@@ -49,9 +49,11 @@ class FlightSelectView(View):
         flight_dep_date = request.session.get('flight_dep_date')
         origin_city = request.session.get('from_city')
         destination_city = request.session.get('to_city')
-        self.flights = QueryList.flight_select_query(flight_dep_date,
-                                                     origin_city,
-                                                     destination_city)
+        self.flights = QueryList.flight_select_query(
+            flight_dep_date,
+            origin_city,
+            destination_city
+        )
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -91,7 +93,7 @@ class FlightSelectView(View):
                     chosen_flight.flight_arrival_date,
                     str(chosen_flight.flight_duration),
                     chosen_flight.flight_cost,
-                    ]
+                ]
                 # Save to session
                 # Can't append directly to session list
                 # Must be done this way
@@ -150,7 +152,7 @@ class AddonSelectView(FormView):
                         addon.addon_description,
                         addon.addon_cost,
                         qty
-                        )
+                    )
                     nonzero_addons.append(r)
                     additional_cost += int(addon.addon_cost) * int(qty)
 
