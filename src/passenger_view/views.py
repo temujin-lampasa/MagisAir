@@ -101,7 +101,7 @@ class FlightSelectView(View):
 
                 # Then calculate and save the total cost of those flights
                 total_cost = sum([i[-1] for i in session_flight_list])
-                request.session['total_cost'] = total_cost
+                request.session['total_cost'] = round(total_cost, 2)
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
@@ -158,6 +158,7 @@ class AddonSelectView(FormView):
             # by recalculating based on flight costs
             flight_cost = sum([f[-1] for f in request.session.get('flight_list', [0])])
             request.session['total_cost'] = flight_cost + additional_cost
+            request.session['total_cost'] = round(request.session['total_cost'], 2)
             request.session['booking_addons'] = nonzero_addons
 
         return super().post(request, *args, **kwargs)
