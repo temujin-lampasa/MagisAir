@@ -100,13 +100,8 @@ class AddonSelectView(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # Get the string representation of the selected addons
-            # and save it to session.
-            selected_addon_ids = form.cleaned_data.get('addon_field')
-            selected_addon_ids = tuple([int(id) for id in selected_addon_ids])
-            selected_addons = models.Addon.objects.filter(addon_id__in=selected_addon_ids)
-            selected_addons = [a.__str__() for a in selected_addons]
-            request.session['addon_list'] = selected_addons
+            # Save fields to session
+            pass
         return super().post(request, *args, **kwargs)
 
 
