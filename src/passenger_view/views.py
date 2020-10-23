@@ -58,18 +58,12 @@ class FlightSelectView(View):
 
     def post(self, request, *args, **kwargs):
         # Instantiate session flight_list
-        print("HERE")
         if 'flight_list' not in request.session:
-            print("INSIDE")
             request.session['flight_list'] = []
-            print("INSTANTIATED")
-        else:
-            print("Already exists")
         # Validate the form data.
         # Make sure only 1 checkbox selected.
         context = {'object_list': self.flights}
         chosen_flight_code = request.POST.getlist(self.checkbox_name)
-        print(chosen_flight_code)
         if len(chosen_flight_code) != 1:
             context['invalid_choice'] = True
             return render(request, self.template_name, context)
@@ -112,8 +106,6 @@ class PassInfoView(FormView):
     success_url = reverse_lazy('passenger_view:addon_select')
 
     def get(self, request, *args, **kwargs):
-        print("IN PASSINFO")
-        print(request.session['flight_list'])
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
