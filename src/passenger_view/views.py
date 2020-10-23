@@ -9,8 +9,7 @@ from .queries import QueryList
 from .forms import (
     FlightSearchForm,
     PassengerInfoForm,
-    AddonSelectForm,
-    AddonQuantityForm,
+    AddonSelectForm
                     )
 
 
@@ -95,7 +94,7 @@ class AddonSelectView(FormView):
     """View for selecting addons."""
     template_name = 'passenger_view/addon_select.html'
     form_class = AddonSelectForm
-    success_url = reverse_lazy('passenger_view:addon_qty_select')
+    success_url = reverse_lazy('passenger_view:confirmation_view')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -105,8 +104,15 @@ class AddonSelectView(FormView):
         return super().post(request, *args, **kwargs)
 
 
-class AddonQuantityView(FormView):
-    """View for selecting quantity of each addon."""
-    template_name = 'passenger_view/addon_qty_select.html'
-    success_url = ""
-    form_class = AddonQuantityForm
+class ConfirmationView(View):
+    """View to confirm booking."""
+    template_name = 'passenger_view/confirm_booking.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        # TODO
+        context = {}
+        return render(request, self.template_name, context)
