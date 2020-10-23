@@ -82,17 +82,26 @@ class FlightSelectView(View):
             for flight in self.flights:
                 if flight.flight_code == chosen_flight_code[0]:
                     chosen_flight = flight
-            # Turn the FlightRow into something JSON serializable
-            request_content = (
-                chosen_flight.flight_code,
-                chosen_flight.airport_origin,
-                chosen_flight.airport_destination,
-                chosen_flight.flight_dep_date,
-                chosen_flight.flight_arrival_date,
-                str(chosen_flight.flight_duration),
-                chosen_flight.flight_cost,
-                )
-            request.session['flight_list'].append(request_content)
+
+            # Check if the chosen flight isn't already added.
+            if (chosen_flight.flight_code not in
+               [f[0] for f in request.session['flight_list']]):
+                # Turn the FlightRow into something JSON serializable
+                request_content = [
+                    chosen_flight.flight_code,
+                    chosen_flight.airport_origin,
+                    chosen_flight.airport_destination,
+                    chosen_flight.flight_dep_date,
+                    chosen_flight.flight_arrival_date,
+                    str(chosen_flight.flight_duration),
+                    chosen_flight.flight_cost,
+                    ]
+                # Save to session
+                # Can't append directly to session list
+                # Must be done this way
+                session_flight_list = request.session['flight_list']
+                session_flight_list.append(request_content)
+                request.session['flight_list'] = session_flight_list
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
@@ -101,6 +110,11 @@ class PassInfoView(FormView):
     template_name = 'passenger_view/pass_info.html'
     form_class = PassengerInfoForm
     success_url = reverse_lazy('passenger_view:addon_select')
+
+    def get(self, request, *args, **kwargs):
+        print("IN PASSINFO")
+        print(request.session['flight_list'])
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
