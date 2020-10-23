@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic.edit import FormView
 import passenger_view.models as models
 from .queries import QueryList
+import datetime
 from .forms import (
     FlightSearchForm,
     PassengerInfoForm,
@@ -30,6 +31,7 @@ class HomeView(View):
             request.session['flight_dep_date'] = form.cleaned_data.get('date').strftime('%Y-%m-%d')
             request.session['from_city'] = form.cleaned_data.get('from_city')
             request.session['to_city'] = form.cleaned_data.get('to_city')
+            request.session['booking_date'] = datetime.date.today().strftime('%Y-%m-%d')
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_flights'))
         context = {'form': form}
         return render(request, self.template_name, context)

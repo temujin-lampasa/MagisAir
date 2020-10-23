@@ -1,9 +1,30 @@
 <hr>
 <h3> Booking Summary </h3>
 
+{% if request.session.booking_date %}
+<p> Booking Date: {{request.session.booking_date}} <p>
+{% endif %}
+
 {% if request.session.pass_fname %}
-<p> Name: {{request.session.pass_fname}},
-  {{request.session.pass_lname}} {{request.session.pass_mi}}. </p>
+<table border='1'>
+  <tr>
+    <th colspan=2> Personal Information </th>
+  </tr>
+  <tr>
+    <td> Name: </td>
+    <td> {{request.session.pass_fname}},
+      {{request.session.pass_lname}} {{request.session.pass_mi}}. </td>
+  </tr>
+  <tr>
+      <td> Birth date: </td>
+      <td> {{request.session.pass_bday}} </td>
+  </tr>
+  <tr>
+      <td> Gender: </td>
+      <td> {{request.session.pass_gender}} </td>
+  </tr>
+
+</table>
 {% endif %}
 
 {% if request.session.flight_list %}
@@ -27,8 +48,6 @@
   </tr>
 </table>
 <br>
-
-<p> Total Cost: ₱ {{request.session.total_cost}}</p>
 {% endif %}
 
 {% if request.session.addon_booking_display %}
@@ -44,4 +63,8 @@
   </tr>
   {% endfor %}
 </table>
+{% endif %}
+
+{% if request.session.total_cost %}
+<p> Total Cost: ₱ {{request.session.total_cost}}</p>
 {% endif %}
