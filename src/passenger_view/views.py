@@ -160,8 +160,6 @@ class AddonSelectView(FormView):
             request.session['total_cost'] = flight_cost + additional_cost
             request.session['booking_addons'] = nonzero_addons
 
-            print(nonzero_addons)
-
         return super().post(request, *args, **kwargs)
 
 
@@ -174,6 +172,6 @@ class ConfirmView(View):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        # TODO
+        # Save the data
         context = {}
         return render(request, self.template_name, context)

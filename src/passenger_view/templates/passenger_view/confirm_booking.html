@@ -1,4 +1,83 @@
-{% extends 'base.html' %}
+{% extends 'summary_base.html' %}
+
 {% block content %}
-<h3> Confirm your booking:</h3>
+<h3> Booking Summary </h3>
+
+{% if request.session.booking_date %}
+<p> Booking Date: {{request.session.booking_date}} <p>
+{% endif %}
+
+{% if request.session.pass_fname %}
+<table border='1'>
+  <tr>
+    <th colspan=2> Personal Information </th>
+  </tr>
+  <tr>
+    <td> Name: </td>
+    <td> {{request.session.pass_fname}},
+      {{request.session.pass_lname}} {{request.session.pass_mi}}. </td>
+  </tr>
+  <tr>
+      <td> Birth date: </td>
+      <td> {{request.session.pass_bday}} </td>
+  </tr>
+  <tr>
+      <td> Gender: </td>
+      <td> {{request.session.pass_gender}} </td>
+  </tr>
+
+</table>
+{% endif %}
+
+<br>
+
+{% if request.session.flight_list %}
+<table border=1>
+  <tr><th colspan=7>Flights</th></tr>
+  <tr>
+    <th> Flight Code </th>
+    <th> From </th>
+    <th> To </th>
+    <th> Departure </th>
+    <th> Arrival </th>
+    <th> Duration </th>
+    <th> Cost </th>
+  </tr>
+  {% for flight in request.session.flight_list %}
+  <tr>
+    {% for i in flight %}
+    <td> {{i}} </td>
+    {% endfor %}
+  {% endfor %}
+  </tr>
+</table>
+<br>
+{% endif %}
+
+{% if request.session.booking_addons %}
+<table border=1>
+  <tr>
+    <th> Addon </th>
+    <th> Price (each) </th>
+    <th> Quantity </th>
+  </tr>
+  {% for addon in request.session.booking_addons %}
+  <tr>
+    <td> {{addon.1}} </td>
+    <td> ₱ {{addon.2}} </td>
+    <td> {{addon.3}} </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if request.session.total_cost %}
+<p> Total Cost: ₱ {{request.session.total_cost}}</p>
+{% endif %}
+
+<hr>
+<form method="POST"> {% csrf_token %}
+  <h3> Confirm your booking:</h3>
+  <input type='button' value='Confirm' \>
+</form>
 {% endblock %}
