@@ -96,6 +96,10 @@ class FlightSelectView(View):
                 session_flight_list = request.session['flight_list']
                 session_flight_list.append(request_content)
                 request.session['flight_list'] = session_flight_list
+
+                # Then calculate and save the total cost of those flights
+                total_cost = sum([i[-1] for i in session_flight_list])
+                request.session['total_cost'] = total_cost
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
