@@ -5,7 +5,7 @@ import passenger_view.models as models
 
 
 class AddonSelectForm(forms.Form):
-    """Creates 1 ChoiceField for quantity for each addon object."""
+    """Creates 1 ChoiceField for the quantity of each addon object."""
 
     MAX_QUANTITY = 6
 
@@ -20,6 +20,8 @@ class AddonSelectForm(forms.Form):
 
 
 class FlightSearchForm(forms.Form):
+    """Gets the date and origin/destination city so you can search
+    for a flight."""
     city_country = QueryList.city_country_select()
     city_choices = [(c[0], f"{c[0]} ({c[1]})") for c in city_country]
 
@@ -46,6 +48,7 @@ class FlightSearchForm(forms.Form):
 
 
 class PassengerInfoForm(forms.ModelForm):
+    """Form for entering passenger information."""
 
     pass_bday = forms.DateField(
         widget=forms.SelectDateWidget(years=range(1890, 2021)),
