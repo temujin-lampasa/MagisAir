@@ -27,6 +27,8 @@
 </table>
 {% endif %}
 
+<br>
+
 {% if request.session.flight_list %}
 <table border=1>
   <tr><th colspan=7>Flights</th></tr>
@@ -50,16 +52,18 @@
 <br>
 {% endif %}
 
-{% if request.session.addon_booking_display %}
+{% if request.session.booking_addons %}
 <table border=1>
   <tr>
     <th> Addon </th>
+    <th> Price (each) </th>
     <th> Quantity </th>
   </tr>
-  {% for addon, qty in request.session.addon_booking_display %}
+  {% for addon in request.session.booking_addons %}
   <tr>
-    <td> {{addon}} </td>
-    <td> {{qty}}</td>
+    <td> {{addon.1}} </td>
+    <td> ₱ {{addon.2}} </td>
+    <td> {{addon.3}} </td>
   </tr>
   {% endfor %}
 </table>

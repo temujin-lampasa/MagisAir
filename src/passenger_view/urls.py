@@ -4,7 +4,7 @@ from .views import (
     PassInfoView,
     FlightSelectView,
     AddonSelectView,
-    ConfirmView
+    ConfirmView,
                     )
 
 

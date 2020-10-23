@@ -135,19 +135,33 @@ class AddonSelectView(FormView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # Save the quantities of the addons to session
+            # Get the addons that have nonzero quantities and save to session.
+            # Addon format = (id, description, cost, quantity)
             addon_quantities = list(form.cleaned_data.values())
-            request.session['addon_quantities'] = addon_quantities
 
-            # addon_booking_display is only for use in the booking_summary.
-            # Show only addons whose quantity is not 0
-            addons = [a.addon_description for a in models.Addon.objects.all()]
-            nonzero_addons = [
-                a for a, b in zip(addons, addon_quantities) if b != '0'
-            ]
-            nonzero_quantities = [a for a in addon_quantities if a != '0']
-            addon_booking_display = list(zip(nonzero_addons, nonzero_quantities))
-            request.session['addon_booking_display'] = addon_booking_display
+            addons = models.Addon.objects.all()
+
+            nonzero_addons = []
+            additional_cost = 0  # total cost of additional addons
+            for addon, qty in zip(addons, addon_quantities):
+                if qty != '0':
+                    r = (
+                        addon.addon_id,
+                        addon.addon_description,
+                        addon.addon_cost,
+                        qty
+                        )
+                    nonzero_addons.append(r)
+                    additional_cost += int(addon.addon_cost) * int(qty)
+
+            # Update the total cost session variable
+            # by recalculating based on flight costs
+            flight_cost = sum([f[-1] for f in request.session.get('flight_list', [0])])
+            request.session['total_cost'] = flight_cost + additional_cost
+            request.session['booking_addons'] = nonzero_addons
+
+            print(nonzero_addons)
+
         return super().post(request, *args, **kwargs)
 
 
