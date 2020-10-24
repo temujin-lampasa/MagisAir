@@ -249,7 +249,7 @@ class SuccessView(View):
 
 
 class FailView(View):
-    """Show this when booking is successful."""
+    """Show this when booking fails."""
     template_name = 'passenger_view/fail.html'
 
     def get(self, request, *args, **kwargs):
