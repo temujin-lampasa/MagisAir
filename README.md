@@ -8,7 +8,7 @@
 </ul>
 
 <b>How to use:</b>
-1. Go to src/db_files and run:
+1. Go to <b>src/db_files</b> and run:
 
 `> psql -U postgres`
 
@@ -24,7 +24,7 @@ If that doesn't work, run:
 
 `> \i generate/flight_insert.sql`
 
-2. Go to src/MagisAir and open `settings.py`.
+2. Go to <b>src/MagisAir</b> and open `settings.py`.
 
   Enter a secret key:
 
@@ -44,7 +44,7 @@ If that doesn't work, run:
   }
   ```
 
-3. Go to src/ and run:
+3. Go to <b>src/</b> and run:
 
 `> python manage.py makemigrations`
 
@@ -52,8 +52,9 @@ If that doesn't work, run:
 
 `> python manage.py runserver`
 
-3. Open browser and go to http://localhost:8000/passenger_view/
+4. Open browser and go to http://localhost:8000/passenger_view/
 
+------------------------------------------------------------------------------------------------------------------------
 
 <b> Notes: </b>
 
@@ -66,7 +67,7 @@ If that doesn't work, run:
 
 -- Missing foreign_key constraints (ON DELETE/UPDATE stuff)
 
--- It doesn't know what to do when there's direct flight from A to B.
+-- It doesn't know what to do when there's no direct flight from A to B.
   (it should suggest a connecting flight).
   
 -- It doesn't look pretty.
