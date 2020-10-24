@@ -169,6 +169,8 @@ class AddonSelectView(FormView):
 class ConfirmView(View):
     """View to confirm booking."""
     template_name = 'passenger_view/confirm_booking.html'
+    success_url = reverse_lazy('passenger_view:success')
+    fail_url = reverse_lazy('passenger_view:fail')
 
     def get(self, request, *args, **kwargs):
         context = {}
@@ -194,44 +196,62 @@ class ConfirmView(View):
                 break
 
         # TODO: rewrite to 'if missing_field'
-        if not missing_field:
-            # Insert a passenger
-            pass_fname = request.session['pass_fname']
-            pass_lname = request.session['pass_lname']
-            pass_mi = request.session['pass_mi']
-            pass_bday = request.session['pass_bday']
-            pass_gender = request.session['pass_gender']
-            # Get pass_id for later
-            pass_id = QueryList.passenger_insert_query(
-                pass_fname, pass_lname, pass_mi, pass_bday, pass_gender
+        if missing_field:
+            context = {}
+            return HttpResponseRedirect(reverse_lazy("passenger_view:fail"))
+        # Insert a passenger
+        pass_fname = request.session['pass_fname']
+        pass_lname = request.session['pass_lname']
+        pass_mi = request.session['pass_mi']
+        pass_bday = request.session['pass_bday']
+        pass_gender = request.session['pass_gender']
+        # Get pass_id for later
+        pass_id = QueryList.passenger_insert_query(
+            pass_fname, pass_lname, pass_mi, pass_bday, pass_gender
+        )
+
+        # Insert a booking
+        # get booking_id
+        booking_id = QueryList.booking_insert_query(
+            request.session['booking_date'], pass_id
+        )
+
+        # Booking Addon Map
+        # Get the selected addons, if any
+        try:
+            addon_ids = [a[0] for a in request.session['booking_addons']]
+            addon_quantities = [
+                a[-1] for a in request.session['booking_addons']
+            ]
+            QueryList.booking_addon_map_query(
+                booking_id, addon_ids, addon_quantities
             )
+        except:
+            pass
 
-            # Insert a booking
-            # get booking_id
-            booking_id = QueryList.booking_insert_query(
-                request.session['booking_date'], pass_id
-            )
+        # Itinerary / Booking-Flight Map
+        flight_codes = [f[0] for f in request.session['flight_list']]
+        flight_dep_dates = [f[3] for f in request.session['flight_list']]
+        QueryList.itinerary_insert_query(
+            booking_id, flight_codes, flight_dep_dates
+        )
 
-            # Booking Addon Map
-            # Get the selected addons, if any
-            try:
-                addon_ids = [a[0] for a in request.session['booking_addons']]
-                addon_quantities = [
-                    a[-1] for a in request.session['booking_addons']
-                ]
-                QueryList.booking_addon_map_query(
-                    booking_id, addon_ids, addon_quantities
-                )
-            except:
-                pass
+        return HttpResponseRedirect(reverse_lazy("passenger_view:success"))
 
-            # Itinerary / Booking-Flight Map
-            flight_codes = [f[0] for f in request.session['flight_list']]
-            flight_dep_dates = [f[3] for f in request.session['flight_list']]
-            QueryList.itinerary_insert_query(
-                booking_id, flight_codes, flight_dep_dates
-            )
-            print("DONE")
 
+class SuccessView(View):
+    """Show this when booking is successful."""
+    template_name = 'passenger_view/success.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+
+class FailView(View):
+    """Show this when booking is successful."""
+    template_name = 'passenger_view/fail.html'
+
+    def get(self, request, *args, **kwargs):
         context = {}
         return render(request, self.template_name, context)
