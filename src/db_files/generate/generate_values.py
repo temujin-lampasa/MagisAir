@@ -1,10 +1,13 @@
 import datetime
 import random
 
+
 class ValueGenerator:
-    def generate_flights(num_routes):
+    NUM_DAYS = 1
+
+    def generate_flights(self, num_routes):
         """Generate 48 flights for each route (2 per hour),
-           for the next 5 days.
+           for the next NUM_DAYS days.
         Assumptions:
         > airport IDs are from 1 to num_airports inclusive.
         > All flights are 30 min long.
@@ -19,7 +22,7 @@ class ValueGenerator:
 
         flight_dep_date = datetime.date.today()
         one_day = datetime.timedelta(days=1)
-        for _ in range(5):
+        for _ in range(self.NUM_DAYS):
             flight_code = 0  # Conv. to string and pad with 0s later
 
             # IDs of the routes
@@ -62,4 +65,5 @@ class ValueGenerator:
 
 
 if __name__ == "__main__":
-    ValueGenerator.generate_flights(12)
+    vg = ValueGenerator()
+    vg.generate_flights(12)
