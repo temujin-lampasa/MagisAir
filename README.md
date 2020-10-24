@@ -69,5 +69,3 @@ If that doesn't work, run:
   (it should suggest a connecting flight).
   
 -- It doesn't look pretty.
-
--- Need to update database to match deliverable.
