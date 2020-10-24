@@ -182,17 +182,18 @@ class ConfirmView(View):
         # 3. Booking_Addon_Map
         # 4. Itinerary
 
-        required_fields = [
+        REQUIRED_FIELDS = [
             'pass_fname', 'pass_lname', 'pass_mi', 'pass_bday', 'pass_gender',
-            'booking_date'
+            'booking_date', 'flight_list'
             ]
 
         missing_field = False
-        for field in required_fields:
+        for field in REQUIRED_FIELDS:
             if field not in request.session:
                 missing_field = True
                 break
 
+        # TODO: rewrite to 'if missing_field'
         if not missing_field:
             # Insert a passenger
             pass_fname = request.session['pass_fname']
@@ -223,6 +224,14 @@ class ConfirmView(View):
                 )
             except:
                 pass
+
+            # Itinerary / Booking-Flight Map
+            flight_codes = [f[0] for f in request.session['flight_list']]
+            flight_dep_dates = [f[3] for f in request.session['flight_list']]
+            QueryList.itinerary_insert_query(
+                booking_id, flight_codes, flight_dep_dates
+            )
+            print("DONE")
 
         context = {}
         return render(request, self.template_name, context)
