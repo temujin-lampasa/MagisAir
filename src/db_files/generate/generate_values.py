@@ -9,7 +9,7 @@ class ValueGenerator:
         """Generate 48 flights for each route (2 per hour),
            for the next NUM_DAYS days.
         Assumptions:
-        > airport IDs are from 1 to num_airports inclusive.
+        > route IDs are from 1 to num_routes inclusive.
         > All flights are 30 min long.
         > Departure and Arrival are all on same day.
         """
