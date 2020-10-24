@@ -68,3 +68,5 @@ If that doesn't work, run:
 
 -- It doesn't know what to do when there's direct flight from A to B.
   ( it should suggest a connecting flight).
+  
+-- It doesn't look pretty.
