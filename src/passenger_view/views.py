@@ -176,17 +176,53 @@ class ConfirmView(View):
 
     def post(self, request, *args, **kwargs):
         # Save the data
-        try:
+        # INSERT in this order:
+        # 1. Passenger
+        # 2. Booking
+        # 3. Booking_Addon_Map
+        # 4. Itinerary
+
+        required_fields = [
+            'pass_fname', 'pass_lname', 'pass_mi', 'pass_bday', 'pass_gender',
+            'booking_date'
+            ]
+
+        missing_field = False
+        for field in required_fields:
+            if field not in request.session:
+                missing_field = True
+                break
+
+        if not missing_field:
             # Insert a passenger
             pass_fname = request.session['pass_fname']
-            pass_lname = request.session['pass_fname']
+            pass_lname = request.session['pass_lname']
             pass_mi = request.session['pass_mi']
             pass_bday = request.session['pass_bday']
             pass_gender = request.session['pass_gender']
-            QueryList.passenger_add_query(
+            # Get pass_id for later
+            pass_id = QueryList.passenger_insert_query(
                 pass_fname, pass_lname, pass_mi, pass_bday, pass_gender
             )
-        except:
-            pass
+
+            # Insert a booking
+            # get booking_id
+            booking_id = QueryList.booking_insert_query(
+                request.session['booking_date'], pass_id
+            )
+
+            # Booking Addon Map
+            # Get the selected addons, if any
+            try:
+                addon_ids = [a[0] for a in request.session['booking_addons']]
+                addon_quantities = [
+                    a[-1] for a in request.session['booking_addons']
+                ]
+                QueryList.booking_addon_map_query(
+                    booking_id, addon_ids, addon_quantities
+                )
+            except:
+                pass
+
         context = {}
         return render(request, self.template_name, context)

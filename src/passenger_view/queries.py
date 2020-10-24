@@ -56,13 +56,47 @@ class QueryList:
     def passenger_insert_query(
         pass_fname, pass_lname, pass_mi, pass_bday, pass_gender
     ):
-        """Insert a row to the passenger table."""
+        """Insert a row to the passenger table and return its ID."""
         vars = [pass_fname, pass_lname, pass_mi, pass_bday, pass_gender]
         q = """
         INSERT INTO
             passenger(pass_fname, pass_lname, pass_mi, pass_bday, pass_gender)
-        VALUES (%s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s);
+
+        SELECT currval(pg_get_serial_sequence('passenger','pass_id'));
         """
         cursor = connection.cursor()
         cursor.execute(q, vars)
+        pass_id = cursor.fetchone()[0]
         cursor.close()
+        return pass_id
+
+    def booking_insert_query(booking_date, pass_id):
+        """Insert a booking for a passenger,
+           return the booking_id."""
+        vars = [booking_date, pass_id]
+        q = """
+        INSERT INTO booking(booking_date, pass_id)
+        VALUES (%s, %s);
+
+        SELECT currval(pg_get_serial_sequence('booking','booking_id'));
+        """
+        cursor = connection.cursor()
+        cursor.execute(q, vars)
+        booking_id = cursor.fetchone()
+        cursor.close()
+        return booking_id
+
+    def booking_addon_map_query(booking_id, addon_ids, addon_quantities):
+        if len(addon_ids) != len(addon_quantities):
+            raise Exception("Invalid addon value.")
+
+        q = """ INSERT INTO booking_addon_map(booking_ID, addon_ID, quantity)
+        VALUES (%s, %s, %s);
+        """
+        cursor = connection.cursor()
+        for addon_id, quantity in zip(addon_ids, addon_quantities):
+            vars = [booking_id, addon_id, quantity]
+            cursor.execute(q, vars)
+        cursor.close()
+        return
