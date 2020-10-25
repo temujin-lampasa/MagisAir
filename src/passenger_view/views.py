@@ -195,9 +195,7 @@ class ConfirmView(View):
                 missing_field = True
                 break
 
-        # TODO: rewrite to 'if missing_field'
         if missing_field:
-            context = {}
             return HttpResponseRedirect(reverse_lazy("passenger_view:fail"))
         # Insert a passenger
         pass_fname = request.session['pass_fname']
