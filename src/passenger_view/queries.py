@@ -21,7 +21,8 @@ class QueryList:
         """Return list of flights as FlightRows."""
         flight_dep_date = dep_date
         q = """SELECT
-          a.flight_code AS "Flight",
+          a.flight_ID,
+          a.flight_code AS "Flight Code",
           a.airport_city || ' (' || a.airport_country || ')' AS "Origin",
           b.airport_city || ' (' || b.airport_country || ')' AS "Destination",
           a.flight_dep_date || ', ' || a.flight_dep_time AS "Departure",
@@ -29,19 +30,21 @@ class QueryList:
           a.flight_arrival_time - a.flight_dep_time AS "Duration",
           a.flight_cost AS "Cost"
         FROM
-          (SELECT * FROM  -- airport with origin
-            (SELECT *
-            FROM flight f
-            JOIN flight_route fr
-            ON (f.route_id=fr.route_id)
-            WHERE f.flight_dep_date = %s) a
-          JOIN
-            airport b
-          ON (a.airport_origin = b.airport_id)) a
+        (  -- flight/origin
+          SELECT *
+          FROM scheduled_flight a
+          JOIN airport b
+          ON (a.origin_airport_ID=b.airport_ID)
+        ) a
         JOIN
-          airport b
-        ON (a.airport_destination=b.airport_id)
-        WHERE a.airport_city = %s AND b.airport_city=%s;
+        (  -- flight/destination
+          SELECT *
+          FROM scheduled_flight a
+          JOIN airport b
+          ON (a.destination_airport_ID=b.airport_ID)
+        ) b
+        ON (a.flight_ID = b.flight_ID)
+        WHERE a.flight_dep_date=%s AND a.airport_city = %s AND b.airport_city=%s;
             """
 
         cursor = connection.cursor()
