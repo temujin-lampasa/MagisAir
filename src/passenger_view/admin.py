@@ -8,8 +8,7 @@ from passenger_view.models import (
     # BookingAddonMap,
     Crew,
     # CrewFlightMap,
-    Flight,
-    FlightRoute,
+    ScheduledFlight,
     Itinerary,
     Passenger,
 )
@@ -22,8 +21,7 @@ models = (
     # BookingAddonMap,
     Crew,
     # CrewFlightMap,
-    Flight,
-    FlightRoute,
+    ScheduledFlight,
     Itinerary,
     Passenger,
 )
