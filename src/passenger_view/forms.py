@@ -56,7 +56,7 @@ class PassengerInfoForm(forms.ModelForm):
         initial=f"{datetime.date.today().year}-01-01",
         label='Birthdate'
     )
-    gc = ["Male", "Female", "Other"]
+    gc = ["Male", "Female"]
     gender_choices = zip(gc, gc)
     pass_gender = forms.ChoiceField(choices=gender_choices, label="Gender")
 
