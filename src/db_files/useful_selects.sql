@@ -1,5 +1,5 @@
 -- CITY GRAPH
-SELECT
+SELECT DISTINCT
   a.airport_name || ', ' || a.airport_city as "Origin" ,
   b.airport_name || ', ' || b.airport_city as "Destination"
 FROM
