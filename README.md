@@ -65,9 +65,9 @@ If that doesn't work, run:
 
 -- Missing sample data (passengers, etc)
 
--- Missing foreign_key constraints (ON DELETE/UPDATE stuff)
-
 -- It doesn't know what to do when there's no direct flight from A to B
   (it should suggest a connecting flight).
   
+-- Does not consider how to get duration when arrival date is not equal to departure date.
+
 -- It doesn't look pretty.
