@@ -17,9 +17,6 @@ class Addon(models.Model):
         managed = False
         db_table = 'addon'
 
-    def __str__(self):
-        return self.addon_description
-
 
 class Airport(models.Model):
     airport_id = models.AutoField(primary_key=True)
@@ -30,12 +27,6 @@ class Airport(models.Model):
     class Meta:
         managed = False
         db_table = 'airport'
-
-    def __str__(self):
-        return f"{self.airport_city} ({self.airport_country})"
-
-    def same_city(self, other_airport):
-        return self.airport_city == other_airport.airport_city
 
 
 class Booking(models.Model):
@@ -69,52 +60,18 @@ class Crew(models.Model):
         db_table = 'crew'
 
 
-class CrewFlightMap(models.Model):
+class CrewAssignment(models.Model):
     crew = models.ForeignKey(Crew, models.DO_NOTHING)
-    flight_code = models.ForeignKey('Flight', models.DO_NOTHING, db_column='flight_code')
-    flight_dep_date = models.DateField()
+    flight = models.ForeignKey('ScheduledFlight', models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'crew_flight_map'
-
-
-class Flight(models.Model):
-    flight_code = models.CharField(primary_key=True, max_length=255)
-    flight_dep_date = models.DateField()
-    flight_dep_time = models.TimeField()
-    flight_arrival_date = models.DateField()
-    flight_arrival_time = models.TimeField()
-    flight_cost = models.FloatField()
-    route = models.ForeignKey('FlightRoute', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'flight'
-        unique_together = (('flight_code', 'flight_dep_date'),)
-
-
-class FlightRoute(models.Model):
-    route_id = models.AutoField(primary_key=True)
-    airport_origin = models.ForeignKey(
-        Airport, models.DO_NOTHING,
-        related_name='airport_origin',
-        db_column='airport_origin'
-        )
-    airport_destination = models.ForeignKey(
-        Airport, models.DO_NOTHING,
-        related_name='airport_destination',
-        db_column='airport_destination')
-
-    class Meta:
-        managed = False
-        db_table = 'flight_route'
+        db_table = 'crew_assignment'
 
 
 class Itinerary(models.Model):
     booking = models.ForeignKey(Booking, models.DO_NOTHING)
-    flight_code = models.ForeignKey(Flight, models.DO_NOTHING, db_column='flight_code')
-    flight_dep_date = models.DateField()
+    flight = models.ForeignKey('ScheduledFlight', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -132,3 +89,19 @@ class Passenger(models.Model):
     class Meta:
         managed = False
         db_table = 'passenger'
+
+
+class ScheduledFlight(models.Model):
+    flight_id = models.AutoField(primary_key=True)
+    flight_code = models.CharField(max_length=255)
+    flight_dep_date = models.DateField()
+    flight_dep_time = models.TimeField()
+    flight_arrival_date = models.DateField()
+    flight_arrival_time = models.TimeField()
+    flight_cost = models.FloatField()
+    origin_airport = models.ForeignKey(Airport, models.DO_NOTHING)
+    destination_airport = models.ForeignKey(Airport, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'scheduled_flight'
