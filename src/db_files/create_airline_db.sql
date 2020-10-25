@@ -1,5 +1,4 @@
 CREATE DATABASE airline;
-
 \c airline;
 
 CREATE TABLE airport(
@@ -9,27 +8,19 @@ CREATE TABLE airport(
   airport_country varchar(255) NOT NULL
 );
 
-CREATE TABLE flight_route(
-  route_ID serial PRIMARY KEY,
-  airport_origin integer NOT NULL,
-  airport_destination integer NOT NULL,
-  CONSTRAINT fk_origin
-  FOREIGN KEY (airport_origin) REFERENCES airport(airport_ID),
-  CONSTRAINT fk_destination
-  FOREIGN KEY (airport_destination) REFERENCES airport(airport_ID)
-);
-
-CREATE TABLE flight(
-  flight_code varchar(255),
+CREATE TABLE scheduled_flight(
+  flight_ID serial PRIMARY KEY,
+  flight_code varchar(255) NOT NULL,
   flight_dep_date date NOT NULL,
   flight_dep_time time NOT NULL,
   flight_arrival_date date NOT NULL,
   flight_arrival_time time NOT NULL,
   flight_cost FLOAT(2) NOT NULL,
-  route_ID integer NOT NULL,
-  PRIMARY KEY (flight_code, flight_dep_date),
-  CONSTRAINT fk_route
-  FOREIGN KEY (route_ID) REFERENCES flight_route(route_ID),
+  origin_airport_ID integer NOT NULL,
+  destination_airport_ID integer NOT NULL,
+  CONSTRAINT fk_origin
+  FOREIGN KEY (origin_airport_ID) REFERENCES airport(airport_ID),
+  FOREIGN KEY (destination_airport_ID) REFERENCES airport(airport_ID),
   CONSTRAINT check_date CHECK (flight_arrival_date >= flight_dep_date)
 );
 
@@ -38,20 +29,18 @@ CREATE TABLE crew(
   crew_fname varchar(255) NOT NULL,
   crew_lname varchar(255) NOT NULL,
   crew_role varchar(255) NOT NULL
-  CHECK (crew_role in ('captain', 'first officer', 'second officer',
-    'third officer', 'relief crew', 'flight engineer', 'purser', 'loadmaster',
-    'airborne sensor operator', 'flight attendant', 'flight medic'))
+  CHECK (crew_role in ('Captain', 'First Officer', 'Second Officer',
+    'Third Officer', 'Relief Crew', 'Flight Engineer', 'Purser', 'Loadmaster',
+    'Airborne Sensor Operator', 'Flight Attendant', 'Flight Medic'))
 );
 
-CREATE TABLE crew_flight_map(
+CREATE TABLE crew_assignment(
   crew_ID integer NOT NULL,
-  flight_code varchar(255) NOT NULL,
-  flight_dep_date date NOT NULL,
+  flight_ID INTEGER NOT NULL,
   CONSTRAINT fk_crew
   FOREIGN KEY (crew_ID) REFERENCES crew(crew_ID),
-  CONSTRAINT fk_flight
-  FOREIGN KEY (flight_code, flight_dep_date)
-  REFERENCES flight(flight_code, flight_dep_date)
+  CONSTRAINT fk_flight FOREIGN KEY (flight_ID)
+  REFERENCES scheduled_flight(flight_ID)
 );
 
 CREATE TABLE passenger(
@@ -81,7 +70,7 @@ CREATE TABLE addon(
 CREATE TABLE booking_addon_map(
   booking_ID integer NOT NULL,
   addon_ID integer NOT NULL,
-  quantity integer NOT NULL DEFAULT 1,
+  quantity integer NOT NULL DEFAULT 01,
   CONSTRAINT fk_booking
   FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
   CONSTRAINT fk_addon
@@ -90,11 +79,9 @@ CREATE TABLE booking_addon_map(
 
 CREATE TABLE itinerary(
   booking_ID integer NOT NULL,
-  flight_code varchar(255) NOT NULL,
-  flight_dep_date date NOT NULL,
+  flight_ID integer NOT NULL,
   CONSTRAINT fk_booking
   FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
-  CONSTRAINT fk_flight
-  FOREIGN KEY (flight_code, flight_dep_date)
-  REFERENCES flight(flight_code, flight_dep_date)
+  CONSTRAINT fk_flight FOREIGN KEY (flight_ID)
+  REFERENCES scheduled_flight(flight_ID)
 );

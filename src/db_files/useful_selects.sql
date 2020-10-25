@@ -1,17 +1,22 @@
 -- CITY GRAPH
 SELECT
-  a.route_ID as "route_ID",
-  a.airport_city as "Origin",
-  b.airport_city as "Destination"
+  a.airport_name || ', ' || a.airport_city as "Origin" ,
+  b.airport_name || ', ' || b.airport_city as "Destination"
 FROM
-  (SELECT -- origin
-    a.route_ID, b.airport_city
-  FROM flight_route a JOIN airport b ON (a.airport_origin=b.airport_ID)) a
+( -- origin
+  SELECT a.flight_ID, b.airport_city, b.airport_name
+  FROM scheduled_flight a
+  JOIN airport b
+  ON (a.origin_airport_ID=b.airport_ID)
+) a
 JOIN
-  (SELECT -- destination
-    a.route_ID, b.airport_city
-  FROM flight_route a JOIN airport b ON (a.airport_destination=b.airport_ID)) b
-ON (a.route_ID = b.route_ID);
+( -- destination
+  SELECT a.flight_ID, b.airport_city, b.airport_name
+  FROM scheduled_flight a
+  JOIN airport b
+  ON (a.destination_airport_ID=b.airport_ID)
+) b
+ON (a.flight_ID=b.flight_ID);
 
 
 -- FLIGHT / PASSENGER
@@ -22,8 +27,8 @@ b.pass_lname || ', ' || b.pass_fname AS "Passenger"
 FROM
   (SELECT * FROM
     (SELECT a.flight_code, a.flight_dep_date, b.booking_ID
-    FROM flight a LEFT JOIN itinerary b
-    ON (a.flight_code=b.flight_code AND a. flight_dep_date=b.flight_dep_date)) a
+    FROM scheduled_flight a LEFT JOIN itinerary b
+    ON (a.flight_ID=b.flight_ID)) a
   LEFT JOIN booking b
   ON (a.booking_ID=b.booking_ID)) a
 LEFT JOIN passenger b
@@ -46,27 +51,22 @@ ON (a.addon_ID = b.addon_ID)
 ORDER BY a.pass_ID;
 
 --- CREW ASSIGNMENTS
+
 SELECT
-  b.crew_lname || ', ' || b.crew_fname AS "Crew",
-  b.crew_role as "Role",
-  b.flight_code as "Flight",
-  a.airport_city as "Destination",
-  b.flight_dep_date || ', ' || b.flight_dep_time AS "Departure",
-  b.flight_arrival_date || ', ' || b.flight_arrival_time AS "Arrival"
-FROM -- route / dest. city
-(SELECT fr.route_ID, ap.airport_city
- FROM flight_route fr JOIN airport ap
- ON (fr.airport_destination = ap.airport_ID)) a
- RIGHT JOIN
-(SELECT
-  b.crew_fname, b.crew_lname, b.crew_role, a.flight_code,
-  a.flight_dep_date, a.flight_dep_time, a.flight_arrival_date,
-  a.flight_arrival_time, a.route_ID
-FROM -- crew / flight
-flight a
-RIGHT JOIN
-(SELECT * FROM crew c
-LEFT JOIN crew_flight_map cfm
-ON (c.crew_ID = cfm.crew_ID)) b
-ON (a.flight_code=b.flight_code and a.flight_dep_date=b.flight_dep_date)) b
-ON (a.route_ID = b.route_ID);
+  a.crew_lname || ', ' || a.crew_fname AS "Crew",
+  a.crew_role as "Role",
+  a.flight_code as "Flight",
+  b.airport_city as "Destination",
+  a.flight_dep_date || ', ' || a.flight_dep_time AS "Departure",
+  a.flight_arrival_date || ', ' || a.flight_arrival_time AS "Arrival"
+FROM
+  (SELECT * FROM
+    (SELECT
+      a.crew_ID, a.crew_fname, a.crew_lname, a.crew_role, b.flight_ID
+       FROM crew a
+    LEFT JOIN crew_assignment b
+    ON (a.crew_ID = b.crew_ID)) a
+  LEFT JOIN scheduled_flight b
+    ON (a.flight_ID=b.flight_ID)) a
+LEFT JOIN airport b
+ON (a.destination_airport_ID=b.airport_ID);

@@ -6,52 +6,35 @@ VALUES
 ('Ninoy Aquino International Airport', 'Manila', 'PH');
 
 
--- complete graph
-INSERT INTO flight_route(airport_origin, airport_destination)
-VALUES
-(1, 2),
-(1, 3),
-(1, 4),
-(2, 1),
-(2, 3),
-(2, 4),
-(3, 1),
-(3, 2),
-(3, 4),
-(4, 1),
-(4, 2),
-(4, 3);
-
-
-INSERT INTO flight(flight_code, flight_dep_date, flight_dep_time,
+INSERT INTO scheduled_flight(flight_code, flight_dep_date, flight_dep_time,
                    flight_arrival_date, flight_arrival_time, flight_cost,
-                   route_ID)
+                   origin_airport_ID, destination_airport_ID)
 VALUES
-('MA 800', current_date + interval '5 days', '12:30:00', current_date + interval '5 days', '13:00:00', 2718.28, 1),
-('MA 801', current_date + interval '5 days', '01:30:00', current_date + interval '5 days', '02:00:00', 2718.28, 1);
+('MA 800', current_date + interval '5 days', '12:30:00', current_date + interval '5 days', '13:00:00', 2718.28, 2, 1),
+('MA 801', current_date + interval '5 days', '01:30:00', current_date + interval '5 days', '02:00:00', 2718.28, 1, 2);
 
 
 INSERT INTO crew(crew_fname, crew_lname, crew_role)
 VALUES
-('James', 'Dean', 'captain'),
-('Claire', 'Boucher', 'first officer'),
-('Debbie', 'Reynolds', 'third officer'),
-('Jeremy', 'Lin', 'flight engineer'),
-('Daigo', 'Umehara', 'airborne sensor operator'),
-('Nana', 'Komatsu', 'flight attendant'),
-('Kana', 'Hanazawa', 'flight attendant'),
-('Robert', 'Lee', 'captain');
+('James', 'Dean', 'Captain'),
+('Claire', 'Boucher', 'First Officer'),
+('Debbie', 'Reynolds', 'Third Officer'),
+('Jeremy', 'Lin', 'Flight Engineer'),
+('Daigo', 'Umehara', 'Airborne Sensor Operator'),
+('Nana', 'Komatsu', 'Flight Attendant'),
+('Kana', 'Hanazawa', 'Flight Attendant'),
+('Robert', 'Lee', 'Captain');
 
 
-INSERT INTO crew_flight_map(crew_ID, flight_code, flight_dep_date)
+INSERT INTO crew_assignment(crew_ID, flight_ID)
 VALUES
-(1, 'MA 800', current_date + interval '5 days'),
-(2, 'MA 800', current_date + interval '5 days'),
-(3, 'MA 800', current_date + interval '5 days'),
-(4, 'MA 800', current_date + interval '5 days'),
-(5, 'MA 800', current_date + interval '5 days'),
-(6, 'MA 800', current_date + interval '5 days'),
-(7, 'MA 800', current_date + interval '5 days');
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1);
 
 
 INSERT INTO passenger(pass_fname, pass_lname, pass_mi, pass_bday, pass_gender)
@@ -91,10 +74,10 @@ VALUES
 (5, 2, 1),
 (5, 3, 1);
 
-INSERT INTO itinerary(booking_ID, flight_code, flight_dep_date)
+INSERT INTO itinerary(booking_ID, flight_ID)
 VALUES
-(1, 'MA 800', current_date + interval '5 days'),
-(2, 'MA 800', current_date + interval '5 days'),
-(3, 'MA 800', current_date + interval '5 days'),
-(4, 'MA 800', current_date + interval '5 days'),
-(5, 'MA 800', current_date + interval '5 days');
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1);
