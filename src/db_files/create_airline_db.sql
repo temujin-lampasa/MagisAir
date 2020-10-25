@@ -49,7 +49,8 @@ CREATE TABLE passenger(
   pass_lname varchar(255) NOT NULL,
   pass_mi varchar(1),
   pass_bday date NOT NULL DEFAULT '1900-01-01',
-  pass_gender varchar(255)
+  pass_gender varchar(255),
+  CONSTRAINT gender_check CHECK (pass_gender in ('Male', 'Female'))
 );
 
 CREATE TABLE booking(
