@@ -99,8 +99,10 @@ class ScheduledFlight(models.Model):
     flight_arrival_date = models.DateField()
     flight_arrival_time = models.TimeField()
     flight_cost = models.FloatField()
-    origin_airport = models.ForeignKey(Airport, models.DO_NOTHING)
-    destination_airport = models.ForeignKey(Airport, models.DO_NOTHING)
+    origin_airport = models.ForeignKey(Airport, models.DO_NOTHING,
+                                       related_name='origin_airport')
+    destination_airport = models.ForeignKey(Airport, models.DO_NOTHING,
+                                            related_name='dest_airport')
 
     class Meta:
         managed = False
