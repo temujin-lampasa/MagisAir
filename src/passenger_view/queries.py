@@ -104,15 +104,15 @@ class QueryList:
         cursor.close()
         return
 
-    def itinerary_insert_query(booking_id, flight_codes, flight_dep_dates):
+    def itinerary_insert_query(booking_id, flight_ids):
         """Insert into itinerary for a given booking and a list of
         flight codes and departure dates."""
         q = """
-        INSERT INTO itinerary(booking_ID, flight_code, flight_dep_date)
-        VALUES (%s, %s, %s);
+        INSERT INTO itinerary(booking_ID, flight_ID)
+        VALUES (%s, %s);
         """
         cursor = connection.cursor()
-        for flight_code, flight_dep_date in zip(flight_codes, flight_dep_dates):
-            cursor.execute(q, (booking_id, flight_code, flight_dep_date))
+        for flight_id in flight_ids:
+            cursor.execute(q, (booking_id, flight_id))
         cursor.close()
         return

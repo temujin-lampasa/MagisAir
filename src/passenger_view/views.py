@@ -86,6 +86,7 @@ class FlightSelectView(View):
                [f[0] for f in request.session['flight_list']]):
                 # Turn the FlightRow into something JSON serializable
                 request_content = [
+                    chosen_flight.flight_ID,
                     chosen_flight.flight_code,
                     chosen_flight.airport_origin,
                     chosen_flight.airport_destination,
@@ -228,10 +229,9 @@ class ConfirmView(View):
             pass
 
         # Itinerary / Booking-Flight Map
-        flight_codes = [f[0] for f in request.session['flight_list']]
-        flight_dep_dates = [f[3] for f in request.session['flight_list']]
+        flight_ids = [f[0] for f in request.session['flight_list']]
         QueryList.itinerary_insert_query(
-            booking_id, flight_codes, flight_dep_dates
+            booking_id, flight_ids
         )
 
         return HttpResponseRedirect(reverse_lazy("passenger_view:success"))
