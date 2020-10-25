@@ -12,6 +12,3 @@ class FlightRow:
         self.flight_arrival_date = data[4]
         self.flight_duration = data[5]
         self.flight_cost = data[6]
-
-    # def get_absolute_url(self):
-    #     return
