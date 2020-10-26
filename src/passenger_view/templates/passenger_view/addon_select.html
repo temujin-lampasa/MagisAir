@@ -4,7 +4,9 @@
 {% block content %}
 <h3> Select your addons </h3>
 <form method="POST"> {% csrf_token %}
+  <div id="addon_form">
   {{form.as_p}}
+  </div>
 <input type="Submit" value="Continue">
 </form>
 {% endblock %}
