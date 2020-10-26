@@ -29,7 +29,7 @@ ul {
   margin: 0;
   padding: 20 0 10 0;
   background-color: #5F5F5F;
-  width: 690px;
+  width: 765px;
   /* border:1px solid black; */
 }
 
@@ -65,7 +65,7 @@ li a:hover {
 }
 
 #content {
-  width: 650px;
+  width: 725px;
   background-color:white;
 }
 

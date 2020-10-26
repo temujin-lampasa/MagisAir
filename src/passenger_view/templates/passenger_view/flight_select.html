@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2> Select your flight: </h2>
+<h3> Select your flight: </h3>
 
 {% if invalid_choice %}
 <ul><li> Choose only one flight </li></ul>
 {% endif %}
 
 <form method="POST"> {% csrf_token %}
-  <table width=1000px border=1 name='flight_sched_table'>
+  <table name='flight_sched_table'>
     <tr><td colspan=8>FLIGHT SCHEDULE: {{request.session.flight_dep_date}}</td></tr>
     <tr>
       <th> Select </th>
