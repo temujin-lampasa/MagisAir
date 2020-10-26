@@ -2,11 +2,11 @@
 
 {% block content %}
 <form action="/passenger_view/" method="GET">
-  <input type="submit" value="Add another flight" \>
 </form>
 <h3> Guest Information </h3>
 <form method="POST"> {% csrf_token %}
 {{form.as_p}}
+<input type="submit" value="Add another flight" \>
 <input type="submit" value="Continue"\>
 
 </form>
