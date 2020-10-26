@@ -40,7 +40,9 @@ CREATE TABLE crew_assignment(
   CONSTRAINT fk_crew
   FOREIGN KEY (crew_ID) REFERENCES crew(crew_ID),
   CONSTRAINT fk_flight FOREIGN KEY (flight_ID)
-  REFERENCES scheduled_flight(flight_ID)
+  REFERENCES scheduled_flight(flight_ID),
+  CONSTRAINT crew_assign_pk
+  PRIMARY KEY(crew_ID, flight_ID)
 );
 
 CREATE TABLE passenger(
@@ -75,7 +77,9 @@ CREATE TABLE booking_addon_map(
   CONSTRAINT fk_booking
   FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
   CONSTRAINT fk_addon
-  FOREIGN KEY (addon_ID) REFERENCES addon(addon_ID)
+  FOREIGN KEY (addon_ID) REFERENCES addon(addon_ID),
+  CONSTRAINT booking_addon_pk
+  PRIMARY KEY (booking_ID, addon_ID)
 );
 
 CREATE TABLE itinerary(
@@ -84,5 +88,7 @@ CREATE TABLE itinerary(
   CONSTRAINT fk_booking
   FOREIGN KEY (booking_ID) REFERENCES booking(booking_ID),
   CONSTRAINT fk_flight FOREIGN KEY (flight_ID)
-  REFERENCES scheduled_flight(flight_ID)
+  REFERENCES scheduled_flight(flight_ID),
+  CONSTRAINT itinerary_pk
+  PRIMARY KEY (booking_ID, flight_ID)
 );
