@@ -1,5 +1,4 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
+# This is an auto-generated Django model module.# You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
@@ -40,13 +39,14 @@ class Booking(models.Model):
 
 
 class BookingAddonMap(models.Model):
-    booking = models.ForeignKey(Booking, models.DO_NOTHING)
+    booking = models.ForeignKey(Booking, models.DO_NOTHING, primary_key=True)
     addon = models.ForeignKey(Addon, models.DO_NOTHING)
     quantity = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'booking_addon_map'
+        unique_together = (('booking', 'addon'),)
 
 
 class Crew(models.Model):
@@ -61,21 +61,23 @@ class Crew(models.Model):
 
 
 class CrewAssignment(models.Model):
-    crew = models.ForeignKey(Crew, models.DO_NOTHING)
+    crew = models.ForeignKey(Crew, models.DO_NOTHING, primary_key=True)
     flight = models.ForeignKey('ScheduledFlight', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'crew_assignment'
+        unique_together = (('crew', 'flight'),)
 
 
 class Itinerary(models.Model):
-    booking = models.ForeignKey(Booking, models.DO_NOTHING)
+    booking = models.ForeignKey(Booking, models.DO_NOTHING, primary_key=True)
     flight = models.ForeignKey('ScheduledFlight', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'itinerary'
+        unique_together = (('booking', 'flight'),)
 
 
 class Passenger(models.Model):
@@ -99,10 +101,8 @@ class ScheduledFlight(models.Model):
     flight_arrival_date = models.DateField()
     flight_arrival_time = models.TimeField()
     flight_cost = models.FloatField()
-    origin_airport = models.ForeignKey(Airport, models.DO_NOTHING,
-                                       related_name='origin_airport')
-    destination_airport = models.ForeignKey(Airport, models.DO_NOTHING,
-                                            related_name='dest_airport')
+    origin_airport = models.ForeignKey(Airport, models.DO_NOTHING, related_name='origin_airport')
+    destination_airport = models.ForeignKey(Airport, models.DO_NOTHING, related_name='dest_airport')
 
     class Meta:
         managed = False
