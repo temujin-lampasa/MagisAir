@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="/passenger_view/" method="GET">
-</form>
+
 <h3> Guest Information </h3>
 <form method="POST"> {% csrf_token %}
 {{form.as_p}}
-<input type="submit" value="Add another flight" \>
 <input type="submit" value="Continue"\>
-
+</form>
+<form action="/passenger_view/" method="GET">
+  <input type="submit" id="add_flight" value="Add another flight" \>
 </form>
 {% endblock %}
