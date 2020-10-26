@@ -4,6 +4,11 @@ html {
   background-color: #faf8f7;
   font-size: 15px;
 }
+
+form {
+  display: inline;
+}
+
 table {
   padding-bottom: 30px;
   background-color: white;
@@ -115,6 +120,7 @@ input[type=submit]{
   background-color: #5F5F5F;
   color: white;
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 label {
