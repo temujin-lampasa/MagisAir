@@ -83,7 +83,7 @@ class FlightSelectView(View):
 
             # Check if the chosen flight isn't already added.
             if (chosen_flight.flight_code not in
-               [f[0] for f in request.session['flight_list']]):
+               [f[1] for f in request.session['flight_list']]):
                 # Turn the FlightRow into something JSON serializable
                 request_content = [
                     chosen_flight.flight_ID,
@@ -102,9 +102,11 @@ class FlightSelectView(View):
                 session_flight_list.append(request_content)
                 request.session['flight_list'] = session_flight_list
 
-                # Then calculate and save the total cost of those flights
-                total_cost = sum([i[-1] for i in session_flight_list])
-                request.session['total_cost'] = round(total_cost, 2)
+                # Add the cost of the new flight
+                additional_cost = chosen_flight.flight_cost
+                new_total = request.session.get('total_cost', 0) + additional_cost
+                new_total = round(new_total, 2)
+                request.session['total_cost'] = new_total
             return HttpResponseRedirect(reverse_lazy('passenger_view:pass_info'))
 
 
