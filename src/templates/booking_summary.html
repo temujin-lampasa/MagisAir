@@ -1,4 +1,4 @@
-<hr>
+<div id="summary">
 <h3> Booking Summary </h3>
 
 {% if request.session.booking_date %}
@@ -76,3 +76,4 @@
 {% if request.session.total_cost %}
 <p> Total Cost: ₱ {{request.session.total_cost}}</p>
 {% endif %}
+</div>

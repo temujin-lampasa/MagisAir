@@ -1,3 +1,81 @@
+/* TABLES */
+html {
+  font-family: "Arial", "Times New Roman";
+  background-color: #faf8f7;
+}
+table {
+  padding-bottom:30px;
+}
 table, th, td {
   border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: left;
+}
+
+/* NAVBAR */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 20 0 10 0;
+  background-color: #5F5F5F;
+  width: 660px;
+  /* border:1px solid black; */
+}
+
+li {
+  text-align: center;
+  display: inline;
+  font-family: "Helvetica", "Arial";
+  font-size: 18px;
+}
+
+li a {
+  color: white;
+  padding: 20px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: red;
+}
+
+:active {
+  color: white;
+}
+
+#content, #summary {
+  padding:20px;
+}
+
+#summary {
+  display: inline-block;
+  background-color: #faf8f7;
+
+}
+
+#content {
+  width: 650px;
+  background-color:white;
+}
+
+/* SELECT */
+select {
+  font-family: "Arial";
+  font-size: 15px;
+}
+
+/* FORMS */
+#forms {
+  padding: 20px 0 0 0;
 }

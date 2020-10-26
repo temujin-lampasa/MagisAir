@@ -5,8 +5,12 @@
   <title>Magis Air</title>
 </head>
 <body>
+  <div id="content">
   {% include 'navbar.html' %}
-  {% block content %} {% endblock %}
-  {% include 'booking_summary.html' %}
+  <div id="forms">
+    {% block content %} {% endblock %}
+    {% include 'booking_summary.html' %}
+  </div>
+  </div>
 </body>
 </html>
