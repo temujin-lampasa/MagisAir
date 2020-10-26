@@ -29,7 +29,7 @@ ul {
   margin: 0;
   padding: 20 0 10 0;
   background-color: #5F5F5F;
-  width: 660px;
+  width: 690px;
   /* border:1px solid black; */
 }
 
@@ -55,7 +55,7 @@ li a:hover {
 }
 
 #content, #summary {
-  padding:20px;
+  padding: 0 20px 0 20px;
 }
 
 #summary {
@@ -78,4 +78,18 @@ select {
 /* FORMS */
 #forms {
   padding: 20px 0 0 0;
+}
+
+/* ERROR MESSAGE */
+ul[class="errorlist nonfield"]{
+  width: 500px;
+  background-color: white;
+}
+
+ul[class="errorlist nonfield"] li{
+  font-style: bold;
+  font-size: 15px;
+  padding:5px;
+  color: #78000c;
+  border: 2px solid;
 }
