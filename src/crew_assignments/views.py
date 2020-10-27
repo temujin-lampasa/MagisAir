@@ -49,6 +49,10 @@ class FlightDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        assigned_crew = QueryList.assigned_crew_query(self.kwargs.get("flight_id"))
+        # Get list of crew member assigned to the flight.
+        assigned_crew = QueryList.assigned_crew_query(self.kwargs.get('flight_id'))
         context['assigned_crew'] = assigned_crew
+        # Get list of passengers assigned to the flight
+        passenger_list = QueryList.passenger_list_query(self.kwargs.get('flight_id'))
+        context['passenger_list'] = passenger_list
         return context

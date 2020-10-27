@@ -61,6 +61,20 @@
     {% endfor %}
   </table>
 </div>
+
+<div class="assigned">
+  <table>
+    <tr>
+      <th> Passengers </th>
+    </tr>
+    {% for passenger in passenger_list %}
+    <tr>
+      <td> {{passenger.0}} </td>
+    </tr>
+    {% endfor %}
+</div>
+
+
 </div>
 
 {% endblock %}

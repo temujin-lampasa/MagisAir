@@ -54,3 +54,23 @@ class QueryList:
         cursor.execute(q, (flight_ID,))
         assigned_crew = cursor.fetchall()
         return assigned_crew
+
+    def passenger_list_query(flight_ID):
+        """Return a list of passengers for a specific flight."""
+        q = """
+        SELECT
+        b.pass_lname || ', ' || b.pass_fname AS "Passenger"
+        FROM
+          (SELECT * FROM
+            (SELECT a.flight_ID, a.flight_code, a.flight_dep_date, b.booking_ID
+            FROM scheduled_flight a LEFT JOIN itinerary b
+            ON (a.flight_ID=b.flight_ID)) a
+          LEFT JOIN booking b
+          ON (a.booking_ID=b.booking_ID)) a
+        LEFT JOIN passenger b
+        ON (a.pass_ID = b.pass_ID)
+        WHERE a.flight_ID=%s;"""
+        cursor = connection.cursor()
+        cursor.execute(q, (flight_ID,))
+        passenger_list = cursor.fetchall()
+        return passenger_list
