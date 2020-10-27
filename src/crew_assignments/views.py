@@ -11,10 +11,6 @@ from django.views.generic import DetailView
 from .queries import QueryList
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the crew assignments index.")
-
-
 class HomeView(View):
     template_name = 'crew_assignments/home_view.html'
     crew_list = Crew.objects.all()
