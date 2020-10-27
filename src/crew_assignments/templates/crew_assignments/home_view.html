@@ -6,7 +6,9 @@
 {% if crew_list %}
     <ul>
     {% for crew in crew_list %}
-        <li>{{ crew.crew_fname }} {{ crew.crew_lname }}, {{ crew.crew_role }}</li>
+        <li> <a href="./crew/{{crew.crew_id}}">
+          {{ crew.crew_fname }} {{ crew.crew_lname }}, {{ crew.crew_role }}
+        </a> </li>
     {% endfor %}
     </ul>
 {% else %}

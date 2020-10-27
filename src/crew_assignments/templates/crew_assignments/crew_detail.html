@@ -1,0 +1,20 @@
+{% extends 'crew_assign_base.html' %}
+
+{% block content %}
+<div id="crew_detail">
+<table>
+  <tr>
+    <th colspan=2>Crew Info</th>
+  </tr>
+  <tr>
+    <td> Name </td>
+    <td> {{object.crew_lname}}, {{object.crew_lname}}</td>
+  </tr>
+  <tr>
+    <td> Role </td>
+    <td> {{object.crew_role}} </td>
+  </tr>
+</table>
+</div>
+
+{% endblock %}

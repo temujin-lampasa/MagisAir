@@ -1,3 +1,155 @@
-h1, li {
-    font-family: Helvetica;
+/* TABLES */
+html {
+  font-family: "Arial", "Times New Roman";
+  background-color: #faf8f7;
+  font-size: 15px;
+}
+
+form {
+  display: inline;
+}
+
+table {
+  padding-bottom: 30px;
+  background-color: white;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: left;
+}
+/* CENTER */
+
+#content {
+  margin: auto;
+}
+
+/* NAVBAR */
+ul {
+  margin:auto;
+  list-style-type: none;
+  padding: 20 0 10 0;
+  background-color: #5F5F5F;
+  width: 765px;
+  /* border:1px solid black; */
+}
+
+li {
+  text-align: center;
+  display: inline;
+  font-family: "Helvetica", "Arial";
+  font-size: 18px;
+}
+
+li a {
+  color: white;
+  padding: 20px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: red;
+}
+
+:active {
+  color: white;
+}
+
+#content, #summary {
+  padding: 0 20px 0 20px;
+}
+
+#summary {
+  display: inline-block;
+  background-color: #faf8f7;
+  width:685px;
+}
+
+#content {
+  width: 725px;
+  background-color:white;
+}
+
+/* SELECT */
+select {
+  font-family: "Arial";
+  font-size: 15px;
+}
+
+/* FORMS */
+#forms {
+  padding: 20px 0 0 0;
+}
+
+/* ERROR MESSAGE */
+ul[class="errorlist nonfield"]{
+  width: 500px;
+  background-color: white;
+}
+
+ul[class="errorlist nonfield"] li{
+  font-style: bold;
+  font-size: 15px;
+  padding:5px;
+  color: #78000c;
+  border: 2px solid;
+}
+
+/* INPUTS */
+input[type=text] {
+  padding: 5px
+}
+
+input[type=submit]{
+  font-family: "Arial", "Times New Roman";
+  padding: 8px 10px 8px 10px;
+  border: None;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #5F5F5F;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+input[type=submit]:hover{
+  color:red;
+}
+
+label {
+  color: black;
+  font-weight: normal;
+  display:inline-block;
+  width: 100px
+}
+
+#addon_form label {
+  width: 180px;
+  display:inline-block;
+}
+
+/* CONFIRM FORM */
+#confirm_msg {
+  display: inline;
+  color: black;
+}
+
+#confirm_form {
+  padding: 20px 20px 0 20px;
+  border: 2px solid #5F5F5F
+}
+
+#confirm_form input[type=submit]{
+  font-size: 20px;
 }
