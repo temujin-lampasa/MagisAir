@@ -1,10 +1,5 @@
-{% load static %}
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="{% static 'passenger_view/style.css' %}">
-	<title>Flight Routes</title>
-</head>
-<body>
+{% extends 'flight_routes_base.html' %}
+{% block content %}
 	<h1>Flight Routes</h1>
 
 	<table border=1>
@@ -27,5 +22,8 @@
 			{% endfor %}
 		</tbody>
 	</table>
-</body>
-</html>
+
+	<form action="./scheduled_flight_create/">
+		<input type="submit" value="Add another flight" \>
+	</form>
+{% endblock %}
