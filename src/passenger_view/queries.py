@@ -1,5 +1,6 @@
 from django.db import connection
 from .helpers import FlightRow
+import datetime
 
 
 class QueryList:
@@ -52,6 +53,12 @@ class QueryList:
         flights = cursor.fetchall()
         cursor.close()
         flight_rows = [FlightRow(f) for f in flights]
+        # Fix negative values, when arrival is the next day:
+        for flight_row in flight_rows:
+            if flight_row.flight_duration.total_seconds() < 0:
+                d = flight_row.flight_duration + datetime.timedelta(hours=24)
+                flight_row.flight_duration = d
+
         return flight_rows
 
     def passenger_insert_query(
