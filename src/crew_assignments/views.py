@@ -3,9 +3,11 @@ from django.http import HttpResponse
 from django.views import View
 from passenger_view.models import (
     Crew,
-    ScheduledFlight
+    ScheduledFlight,
+    CrewAssignment
 )
 from django.views.generic import DetailView
+from .queries import QueryList
 
 
 def index(request):
@@ -29,6 +31,12 @@ class CrewDetailView(DetailView):
     def get_object(self):
         id_ = self.kwargs.get("crew_id")
         return get_object_or_404(Crew, crew_id=id_)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assigned_flights = QueryList.assigned_flights_query(self.kwargs.get("crew_id"))
+        context['assigned_flights'] = assigned_flights
+        return context
 
 
 class FlightDetailView(DetailView):
