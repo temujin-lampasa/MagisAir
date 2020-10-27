@@ -154,7 +154,15 @@ label {
   font-size: 20px;
 }
 
+
+/* CREW ASSIGNMENTS */
+
 /* DETAIL VIEW */
 .detail_label {
   font-weight: bold;
+}
+
+#crew_assign_block {
+  padding-top: 30px;
+  padding-left: 30px;
 }
