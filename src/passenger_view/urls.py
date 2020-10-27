@@ -18,5 +18,5 @@ urlpatterns = [
     path('addons/', AddonSelectView.as_view(), name='addon_select'),
     path('confirm_booking/', ConfirmView.as_view(), name='confirmation_view'),
     path('success/', SuccessView.as_view(), name='success'),
-    path('fail/', FailView.as_view(), name='fail')
+    path('fail/', FailView.as_view(), name='fail'),
 ]

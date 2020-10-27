@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     path(r'passenger_view/', include('passenger_view.urls')),
+    path('crew_assignments/', include('crew_assignments.urls')),
     re_path(r'^admin/', admin.site.urls),
 ]

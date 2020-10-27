@@ -1,0 +1,29 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'crew_assignments/style.css' %}">
+
+<h1>Crew: </h1>
+{% if crew_list %}
+    <ul>
+    {% for crew in crew_list %}
+        <li>{{ crew.crew_fname }} {{ crew.crew_lname }}, {{ crew.crew_role }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No crews are available.</p>
+{% endif %}
+<br>
+<h1>Flights: </h1>
+{% if flight_list %}
+    <ul>
+    {% for flight in flight_list %}
+        <li>{{ flight.flight_code }} ({{ flight.origin_airport.airport_city }} to {{ flight.destination_airport.airport_city }})</li>
+        <ul>
+            <li>Departure: {{ flight.flight_dep_date }} at {{ flight.flight_dep_time }}</li>
+            <li>Arrival: {{ flight.flight_arrival_date }} at {{ flight.flight_arrival_time }}</li>
+        </ul>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No flights are available.</p>
+{% endif %}
