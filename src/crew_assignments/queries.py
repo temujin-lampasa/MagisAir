@@ -74,3 +74,13 @@ class QueryList:
         cursor.execute(q, (flight_ID,))
         passenger_list = cursor.fetchall()
         return passenger_list
+
+    def crew_assign_query(crew_ID, flight_ID):
+        """Assign a crew member to a flight."""
+        q = """
+        INSERT INTO crew_assignment(crew_ID, flight_ID)
+        VALUES (%s, %s)
+        """
+        cursor = connection.cursor()
+        cursor.execute(q, (crew_ID, flight_ID))
+        return
