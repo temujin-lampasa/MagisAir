@@ -37,7 +37,7 @@
   </tr>
   {% for flight in flight_list %}
   <tr>
-    <td> {{flight.flight_code}} </td>
+    <td> <a href="./flight/{{flight.flight_id}}"> {{flight.flight_code}} </a> </td>
     <td> {{flight.origin_airport.airport_city}} </td>
     <td> {{ flight.destination_airport.airport_city }} </td>
     <td> {{ flight.flight_dep_date }} at {{ flight.flight_dep_time }} </td>

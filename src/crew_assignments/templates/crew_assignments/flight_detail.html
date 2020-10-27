@@ -1,0 +1,48 @@
+{% extends 'crew_assign_base.html' %}
+
+{% block content %}
+<div id="flight_detail">
+<table>
+  <tr>
+    <th colspan=2>Flight Info</th>
+  </tr>
+  <tr>
+    <td> ID </td>
+    <td> {{object.flight_id}} </td>
+  </tr>
+  <tr>
+    <td> Flight Code </td>
+    <td> {{object.flight_code}} </td>
+  </tr>
+  <tr>
+    <td> Origin </td>
+    <td> {{object.origin_airport.airport_city}}, {{object.origin_airport.airport_name}} </td>
+  </tr>
+  <tr>
+    <td> Destination </td>
+    <td> {{object.destination_airport.airport_city}}, {{object.destination_airport.airport_name}}</td>
+  </tr>
+  <tr>
+    <td> Departure Date </td>
+    <td> {{object.flight_dep_date}} </td>
+  </tr>
+  <tr>
+    <td> Departure Time </td>
+    <td> {{object.flight_dep_time}} </td>
+  </tr>
+  <tr>
+    <td> Arrival Date </td>
+    <td> {{object.flight_arrival_date}} </td>
+  </tr>
+  <tr>
+    <td> Arrival Time </td>
+    <td> {{object.flight_arrival_time}} </td>
+  </tr>
+  <tr>
+    <td> Cost </td>
+    <td> {{object.flight_cost}} </td>
+  </tr>
+</table>
+</div>
+
+{% endblock %}

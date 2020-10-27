@@ -22,10 +22,19 @@ class HomeView(View):
         return render(request, self.template_name, self.context)
 
 
-class CrewDetail(DetailView):
+class CrewDetailView(DetailView):
     model = Crew
     template_name = 'crew_assignments/crew_detail.html'
 
     def get_object(self):
         id_ = self.kwargs.get("crew_id")
         return get_object_or_404(Crew, crew_id=id_)
+
+
+class FlightDetailView(DetailView):
+    model = ScheduledFlight
+    template_name = 'crew_assignments/flight_detail.html'
+
+    def get_object(self):
+        id_ = self.kwargs.get("flight_id")
+        return get_object_or_404(ScheduledFlight, flight_id=id_)
