@@ -1,11 +1,37 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
+from django.http import HttpResponseRedirect
 from django.views import View
-from itertools import permutations
-from passenger_view.models import Airport, ScheduledFlight
-from .forms import ScheduledFlightForm
+from passenger_view.models import ScheduledFlight
+from .forms import ScheduledFlightForm, AirportForm
+
 
 # Create your views here.
+class AirportCreateView(View):
+    """View for creating new airports"""
 
+    def get(self, request, *args, **kwargs):
+        form = AirportForm()
+
+        if form.is_valid():
+            form.save()
+            form = AirportForm()
+        context = {
+            "form" : form
+        }
+
+        return render(request, "airport_create.html", context)
+
+    def post(self, request, *args, **kwargs):
+        form = AirportForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            form = AirportForm()
+        context = {
+            "form": form
+        }
+
+        return HttpResponseRedirect(reverse("flight_routes:flight_routes_view"))
 
 class FlightRoutesView(View):
     """View for seeing flight routes"""
@@ -48,4 +74,4 @@ class ScheduledFlightCreateView(View):
             "form": form
         }
 
-        return render(request, "scheduled_flight_create.html", context)
+        return HttpResponseRedirect(reverse("flight_routes:flight_routes_view"))

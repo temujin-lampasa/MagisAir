@@ -3,6 +3,24 @@ from string import digits
 from passenger_view.models import ScheduledFlight, Airport
 
 
+class AirportForm(forms.ModelForm):
+    """Form for creating new airports"""
+    class Meta:
+        model = Airport
+        fields = [
+            'airport_name',
+            'airport_city',
+            'airport_country'
+        ]
+
+    def clean_airport_country(self, *args, **kwargs):
+        airport_country = self.cleaned_data.get('airport_country')
+        if len(airport_country) == 2 and airport_country.isupper():
+            return airport_country
+        else:
+            raise forms.ValidationError("Country code is invalid")
+
+
 class ScheduledFlightForm(forms.ModelForm):
     class Meta:
         model = ScheduledFlight
