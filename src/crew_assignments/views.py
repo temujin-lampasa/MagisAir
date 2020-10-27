@@ -72,9 +72,13 @@ class CrewAssignView(View):
     def post(self, request, *args, **kwargs):
         selected_flight_IDs = request.POST.getlist(self.checkbox_name)
         # Perform a query to assign to selected flights.
+        # If it hasn't already been added.
         last_crew_ID = request.session.get('last_crew_id')
         for flight_ID in selected_flight_IDs:
-            QueryList.crew_assign_query(last_crew_ID, flight_ID)
+            try:
+                QueryList.crew_assign_query(last_crew_ID, flight_ID)
+            except:
+                pass
         return HttpResponseRedirect(
             reverse('crew_assignments:crew_detail', args=(last_crew_ID,))
         )
