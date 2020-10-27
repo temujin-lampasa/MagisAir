@@ -1,24 +1,24 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import View
 from passenger_view.models import (
     Crew,
     ScheduledFlight,
     CrewAssignment,
 )
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView
 from .queries import QueryList
 
 
 class HomeView(View):
     template_name = 'crew_assignments/home_view.html'
-    crew_list = Crew.objects.all()
-    flight_list = ScheduledFlight.objects.all()
-    context = {'crew_list': crew_list, 'flight_list': flight_list}
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, self.context)
+        crew_list = Crew.objects.all()
+        flight_list = ScheduledFlight.objects.all()
+        context = {'crew_list': crew_list, 'flight_list': flight_list}
+        return render(request, self.template_name, context)
 
 
 class CrewDetailView(DetailView):
@@ -76,5 +76,17 @@ class CrewAssignView(View):
             except:
                 pass
         return HttpResponseRedirect(
-            reverse('crew_assignments:crew_detail', args=(last_crew_ID,))
+            reverse_lazy('crew_assignments:crew_detail', args=(last_crew_ID,))
         )
+
+
+class CrewCreateView(CreateView):
+    model = Crew
+    template_name = 'crew_assignments/crew_create.html'
+    success_url = reverse_lazy("crew_assignments:crew_home")
+    fields = ['crew_fname', 'crew_lname', 'crew_role']
+    labels = {
+        'crew_fname': 'First Name',
+        'crew_lname': 'Last Name',
+        'crew_role': 'Role'
+    }
