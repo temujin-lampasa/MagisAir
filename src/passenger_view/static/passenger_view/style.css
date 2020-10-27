@@ -98,6 +98,16 @@ ul[class="errorlist nonfield"]{
   background-color: white;
 }
 
+.errorlist {
+  width: 500px;
+  background-color: white;
+  font-style: bold;
+  font-size: 15px;
+  padding:5px;
+  color: #78000c;
+  border: 2px solid;
+}
+
 ul[class="errorlist nonfield"] li{
   font-style: bold;
   font-size: 15px;
