@@ -46,3 +46,9 @@ class FlightDetailView(DetailView):
     def get_object(self):
         id_ = self.kwargs.get("flight_id")
         return get_object_or_404(ScheduledFlight, flight_id=id_)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assigned_crew = QueryList.assigned_crew_query(self.kwargs.get("flight_id"))
+        context['assigned_crew'] = assigned_crew
+        return context

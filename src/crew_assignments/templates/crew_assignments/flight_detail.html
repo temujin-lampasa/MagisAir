@@ -43,6 +43,24 @@
     <td> {{object.flight_cost}} </td>
   </tr>
 </table>
+
+<div class="assigned">
+  <table>
+    <tr>
+      <th colspan=2> Assigned Crew </th>
+    </tr>
+    <tr>
+      <th> Name </th>
+      <th> Role </th>
+    </tr>
+    {% for crew_member in assigned_crew %}
+    <tr>
+      <td> {{crew_member.1}}, {{crew_member.0}} </td>
+      <td> {{crew_member.2}} </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 </div>
 
 {% endblock %}

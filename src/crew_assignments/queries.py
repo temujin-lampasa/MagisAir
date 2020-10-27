@@ -29,3 +29,28 @@ class QueryList:
         cursor.execute(q, (crew_ID,))
         assigned_flights = cursor.fetchall()
         return assigned_flights
+
+    def assigned_crew_query(flight_ID):
+        """Get the assigned crew for a flight.
+        Format: (fname, lname, role)"""
+        q = """
+        SELECT
+        b.crew_fname,
+        b.crew_lname,
+        b.crew_role
+        FROM
+          (
+            SELECT *
+            FROM scheduled_flight a
+            JOIN crew_assignment b
+            ON (a.flight_ID = b.flight_ID)
+            WHERE a.flight_ID=%s
+          ) a
+        JOIN crew b
+        ON (a.crew_ID=b.crew_ID);
+        """
+
+        cursor = connection.cursor()
+        cursor.execute(q, (flight_ID,))
+        assigned_crew = cursor.fetchall()
+        return assigned_crew
