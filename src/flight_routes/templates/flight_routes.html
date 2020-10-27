@@ -1,0 +1,31 @@
+{% load static %}
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'passenger_view/style.css' %}">
+	<title>Flight Routes</title>
+</head>
+<body>
+	<h1>Flight Routes</h1>
+
+	<table border=1>
+		<thead>
+			<tr>
+				<th><b>Origin</b></th>
+				<th><b>Origin Airport</b></th>
+				<th><b>Destination</b></th>
+				<th><b>Destination Airport</b></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for origin_airport_name, origin_airport_city, origin_airport_country, destination_airport_name, destination_airport_city, destination_airport_country in flight_routes %}
+			<tr>
+				<td>{{ origin_airport_city }}, {{ origin_airport_country }}</td>
+				<td>{{ origin_airport_name }}</td>
+				<td>{{ destination_airport_city }}, {{ destination_airport_country }}</td>
+				<td>{{ destination_airport_name }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>
